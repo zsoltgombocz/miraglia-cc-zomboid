@@ -55,3 +55,14 @@ bun run preview
   - Feedback (testimonial slider + contact form)
 - **Preserve spacing and readability** - Match the generous spacing in aura.build
 - **Keep sections minimal** - Each section should serve one clear purpose
+
+## Multilanguage Support
+
+The app supports English and Hungarian with a minimal language switcher:
+
+- **Context**: `src/contexts/LanguageContext.jsx` - React Context for language state
+- **Translations**: `src/locales/en.json` and `src/locales/hu.json`
+- **Usage**: Use `const { t } = useLanguage()` hook and call `t('key.path')` for translations
+- **Switcher**: Minimal EN/HU toggle in navigation (top of floating nav)
+- **Persistence**: Language preference saved in browser localStorage
+- **Adding languages**: Create new JSON file in `src/locales/` and add to `translations` object in LanguageContext
