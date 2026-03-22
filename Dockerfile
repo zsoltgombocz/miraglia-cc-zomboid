@@ -15,8 +15,6 @@ RUN bun install --frozen-lockfile
 COPY src ./src
 COPY index.html ./
 COPY vite.config.js ./
-COPY postcss.config.js ./
-COPY tailwind.config.js ./
 
 # Build frontend
 RUN bun run build
@@ -32,7 +30,6 @@ RUN bun install --production --frozen-lockfile
 
 # Copy backend source
 COPY server ./server
-COPY drizzle.config.js ./
 
 # Copy built frontend from builder stage
 COPY --from=frontend-builder /app/dist ./dist
@@ -41,7 +38,7 @@ COPY --from=frontend-builder /app/dist ./dist
 RUN mkdir -p /app/server/data
 
 # Expose ports
-EXPOSE 3001
+EXPOSE 3000
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
