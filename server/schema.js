@@ -1,4 +1,4 @@
-import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
+import { sqliteTable, text, integer, unique } from 'drizzle-orm/sqlite-core';
 import { sql } from 'drizzle-orm';
 
 export const content = sqliteTable('content', {
@@ -7,7 +7,9 @@ export const content = sqliteTable('content', {
   section: text('section').notNull(),
   data: text('data', { mode: 'json' }).notNull(),
   updatedAt: text('updated_at').default(sql`CURRENT_TIMESTAMP`),
-});
+}, (table) => ({
+  languageSectionUnique: unique().on(table.language, table.section),
+}));
 
 export const mods = sqliteTable('mods', {
   id: integer('id').primaryKey({ autoIncrement: true }),
