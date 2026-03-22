@@ -19,8 +19,14 @@ Landing page for "NewDawn" - a Project Zomboid multiplayer server for EU and Hun
 # Install dependencies
 bun install
 
-# Start development server (runs on http://localhost:5173)
+# Start frontend development server (runs on http://localhost:5173)
 bun run dev
+
+# Start backend server (runs on http://localhost:3001)
+bun run server
+
+# Start both frontend and backend concurrently
+bun run dev:all
 
 # Build for production
 bun run build
@@ -66,3 +72,57 @@ The app supports English and Hungarian with a minimal language switcher:
 - **Switcher**: Minimal EN/HU toggle in navigation (top of floating nav)
 - **Persistence**: Language preference saved in browser localStorage
 - **Adding languages**: Create new JSON file in `src/locales/` and add to `translations` object in LanguageContext
+
+## Admin Panel
+
+The project includes a full admin panel at `/admin` for managing content:
+
+### Backend (Node.js + Express)
+
+Located in `server/` directory:
+
+- **server/index.js** - Main Express server with CORS, JSON support
+- **server/routes/auth.js** - Password authentication
+- **server/routes/content.js** - Content management (hero, server info)
+- **server/routes/mods.js** - Workshop mod management with Steam API
+- **server/routes/forms.js** - Form submissions and testimonials
+- **server/routes/server-status.js** - RCON integration for live server stats
+- **server/data/** - JSON files for data storage (gitignored except .gitkeep)
+
+### Environment Variables
+
+Copy `.env.example` to `.env` and configure:
+
+- `ADMIN_PASSWORD` - Master password for admin panel (default: admin123)
+- `RCON_HOST`, `RCON_PORT`, `RCON_PASSWORD` - Optional: For live server status
+- `STEAM_API_KEY` - Optional: For fetching workshop mod details
+- `PORT` - Backend server port (default: 3001)
+
+### Admin Features
+
+**Access**: Navigate to `http://localhost:5173/admin`
+
+1. **Content Editor**
+   - Edit hero section (title, description)
+   - Edit server info fields (region, gameplay style, wipe policy, etc.)
+   - Changes saved to `server/data/content.json`
+
+2. **Mod Manager**
+   - Add workshop mods by Steam Workshop ID
+   - Auto-fetch mod details from Steam API (name, description, thumbnail)
+   - Delete mods from the list
+   - Mods stored in `server/data/mods.json`
+
+3. **Form & Testimonial Manager**
+   - View all submitted forms from the feedback section
+   - Promote feedback submissions to testimonials (survivor logs)
+   - Delete forms or testimonials
+   - Forms stored in `server/data/forms.json`
+   - Testimonials stored in `server/data/testimonials.json`
+
+### Data Flow
+
+- Frontend fetches dynamic content from backend API
+- Admin panel updates are saved to JSON files in `server/data/`
+- Server status is cached and updated every 30 seconds via RCON (if configured)
+- Workshop mods are cached after first fetch to reduce API calls
