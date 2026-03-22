@@ -53,7 +53,8 @@ const Feedback = () => {
   return (
     <section id="feedback" className="scroll-mt-32">
       <div className="flex flex-col gap-16">
-        {/* Survivor Log Slider */}
+        {/* Survivor Log Slider - Only show if testimonials exist */}
+        {testimonials.length > 0 && (
         <div className="w-full">
           <div className="flex items-center gap-3 mb-8">
             <iconify-icon icon="solar:chat-round-line-linear" className="text-zinc-500 text-lg"></iconify-icon>
@@ -102,6 +103,7 @@ const Feedback = () => {
             </div>
           </div>
         </div>
+        )}
 
         {/* Form */}
         <div className="w-full">

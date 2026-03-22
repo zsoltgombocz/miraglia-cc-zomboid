@@ -51,6 +51,44 @@ const ContentEditor = () => {
     }));
   };
 
+  const updateRule = (lang, index, field, value) => {
+    setContent((prev) => {
+      const rules = [...(prev[lang]?.rules || [])];
+      rules[index] = { ...rules[index], [field]: value };
+      return {
+        ...prev,
+        [lang]: {
+          ...prev[lang],
+          rules,
+        },
+      };
+    });
+  };
+
+  const addRule = (lang) => {
+    setContent((prev) => ({
+      ...prev,
+      [lang]: {
+        ...prev[lang],
+        rules: [...(prev[lang]?.rules || []), { title: '', content: '' }],
+      },
+    }));
+  };
+
+  const removeRule = (lang, index) => {
+    setContent((prev) => {
+      const rules = [...(prev[lang]?.rules || [])];
+      rules.splice(index, 1);
+      return {
+        ...prev,
+        [lang]: {
+          ...prev[lang],
+          rules,
+        },
+      };
+    });
+  };
+
   if (loading) {
     return <div className="text-zinc-500">Loading...</div>;
   }
@@ -113,16 +151,71 @@ const ContentEditor = () => {
         <h2 className="text-lg font-semibold text-zinc-100 mb-4">Server Info</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {Object.entries(currentContent.serverInfo || {}).map(([key, value]) => (
-            <div key={key}>
+            <div key={key} className={key === 'additionalNotes' ? 'md:col-span-2' : ''}>
               <label className="block text-sm font-medium text-zinc-400 mb-2 capitalize">
                 {key.replace(/([A-Z])/g, ' $1').trim()}
               </label>
-              <input
-                type="text"
-                value={value}
-                onChange={(e) => updateField(activeLanguage, 'serverInfo', key, e.target.value)}
-                className="w-full bg-zinc-950/50 border border-zinc-800 rounded-lg px-3 py-2 text-zinc-200 focus:outline-none focus:border-lime-600"
-              />
+              {key === 'additionalNotes' ? (
+                <textarea
+                  rows="3"
+                  value={value}
+                  onChange={(e) => updateField(activeLanguage, 'serverInfo', key, e.target.value)}
+                  className="w-full bg-zinc-950/50 border border-zinc-800 rounded-lg px-3 py-2 text-zinc-200 focus:outline-none focus:border-lime-600 resize-none"
+                />
+              ) : (
+                <input
+                  type="text"
+                  value={value}
+                  onChange={(e) => updateField(activeLanguage, 'serverInfo', key, e.target.value)}
+                  className="w-full bg-zinc-950/50 border border-zinc-800 rounded-lg px-3 py-2 text-zinc-200 focus:outline-none focus:border-lime-600"
+                />
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Rules Section */}
+      <div className="bg-zinc-900/40 border border-zinc-800/60 rounded-xl p-6">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg font-semibold text-zinc-100">Server Rules</h2>
+          <button
+            onClick={() => addRule(activeLanguage)}
+            className="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-sm font-medium rounded-lg transition-colors"
+          >
+            + Add Rule
+          </button>
+        </div>
+        <div className="space-y-4">
+          {(currentContent.rules || []).map((rule, index) => (
+            <div key={index} className="p-4 bg-zinc-950/50 border border-zinc-800 rounded-lg space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-medium text-zinc-400">Rule {index + 1}</span>
+                <button
+                  onClick={() => removeRule(activeLanguage, index)}
+                  className="text-xs text-red-500 hover:text-red-400 transition-colors"
+                >
+                  Remove
+                </button>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-zinc-400 mb-2">Title</label>
+                <input
+                  type="text"
+                  value={rule.title}
+                  onChange={(e) => updateRule(activeLanguage, index, 'title', e.target.value)}
+                  className="w-full bg-zinc-950/50 border border-zinc-800 rounded-lg px-3 py-2 text-zinc-200 focus:outline-none focus:border-lime-600"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-zinc-400 mb-2">Content</label>
+                <textarea
+                  rows="3"
+                  value={rule.content}
+                  onChange={(e) => updateRule(activeLanguage, index, 'content', e.target.value)}
+                  className="w-full bg-zinc-950/50 border border-zinc-800 rounded-lg px-3 py-2 text-zinc-200 focus:outline-none focus:border-lime-600 resize-none"
+                />
+              </div>
             </div>
           ))}
         </div>

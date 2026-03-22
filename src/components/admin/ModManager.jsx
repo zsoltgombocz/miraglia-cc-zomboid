@@ -3,10 +3,12 @@ import { useState, useEffect } from 'react';
 const ModManager = () => {
   const [mods, setMods] = useState([]);
   const [workshopId, setWorkshopId] = useState('');
+  const [collectionUrl, setCollectionUrl] = useState('');
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchMods();
+    fetchCollectionUrl();
   }, []);
 
   const fetchMods = async () => {
@@ -16,6 +18,16 @@ const ModManager = () => {
       setMods(data);
     } catch (error) {
       console.error('Failed to fetch mods:', error);
+    }
+  };
+
+  const fetchCollectionUrl = async () => {
+    try {
+      const response = await fetch('http://localhost:3001/api/settings/collection_url');
+      const data = await response.json();
+      setCollectionUrl(data.value || '');
+    } catch (error) {
+      console.error('Failed to fetch collection URL:', error);
     }
   };
 
@@ -55,6 +67,52 @@ const ModManager = () => {
     }
   };
 
+  const handleSaveCollectionUrl = async () => {
+    try {
+      await fetch('http://localhost:3001/api/settings/collection_url', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ value: collectionUrl }),
+      });
+      alert('Collection URL saved!');
+    } catch (error) {
+      alert('Failed to save collection URL');
+    }
+  };
+
+  const moveModUp = (index) => {
+    if (index === 0) return;
+    const newMods = [...mods];
+    [newMods[index - 1], newMods[index]] = [newMods[index], newMods[index - 1]];
+    setMods(newMods);
+    saveModOrder(newMods);
+  };
+
+  const moveModDown = (index) => {
+    if (index === mods.length - 1) return;
+    const newMods = [...mods];
+    [newMods[index], newMods[index + 1]] = [newMods[index + 1], newMods[index]];
+    setMods(newMods);
+    saveModOrder(newMods);
+  };
+
+  const saveModOrder = async (orderedMods) => {
+    try {
+      const modOrder = orderedMods.map((mod, index) => ({
+        id: mod.id,
+        order: index,
+      }));
+
+      await fetch('http://localhost:3001/api/mods/reorder', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mods: modOrder }),
+      });
+    } catch (error) {
+      console.error('Failed to save mod order:', error);
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Add Mod Form */}
@@ -78,13 +136,54 @@ const ModManager = () => {
         </form>
       </div>
 
+      {/* Collection URL */}
+      <div className="bg-zinc-900/40 border border-zinc-800/60 rounded-xl p-6">
+        <h2 className="text-lg font-semibold text-zinc-100 mb-4">Workshop Collection URL</h2>
+        <div className="flex gap-3">
+          <input
+            type="text"
+            value={collectionUrl}
+            onChange={(e) => setCollectionUrl(e.target.value)}
+            placeholder="https://steamcommunity.com/sharedfiles/filedetails/?id=..."
+            className="flex-1 bg-zinc-950/50 border border-zinc-800 rounded-lg px-3 py-2 text-zinc-200 focus:outline-none focus:border-lime-600"
+          />
+          <button
+            onClick={handleSaveCollectionUrl}
+            className="px-6 py-2 bg-lime-600 hover:bg-lime-500 text-zinc-950 font-medium rounded-lg transition-colors"
+          >
+            Save
+          </button>
+        </div>
+      </div>
+
       {/* Mods List */}
       <div className="space-y-3">
-        {mods.map((mod) => (
+        <h2 className="text-lg font-semibold text-zinc-100">Mods (Drag to Reorder)</h2>
+        {mods.map((mod, index) => (
           <div
             key={mod.id}
             className="bg-zinc-900/40 border border-zinc-800/60 rounded-xl p-4 flex items-center gap-4"
           >
+            {/* Reorder buttons */}
+            <div className="flex flex-col gap-1">
+              <button
+                onClick={() => moveModUp(index)}
+                disabled={index === 0}
+                className="p-1 text-zinc-500 hover:text-zinc-200 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                title="Move up"
+              >
+                <iconify-icon icon="solar:alt-arrow-up-linear" className="text-lg"></iconify-icon>
+              </button>
+              <button
+                onClick={() => moveModDown(index)}
+                disabled={index === mods.length - 1}
+                className="p-1 text-zinc-500 hover:text-zinc-200 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                title="Move down"
+              >
+                <iconify-icon icon="solar:alt-arrow-down-linear" className="text-lg"></iconify-icon>
+              </button>
+            </div>
+
             {mod.image && (
               <img
                 src={mod.image}

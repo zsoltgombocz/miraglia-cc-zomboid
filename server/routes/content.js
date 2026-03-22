@@ -1,27 +1,47 @@
 import express from 'express';
-import fs from 'fs/promises';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import { db } from '../db.js';
+import { content } from '../schema.js';
 
 const router = express.Router();
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const dataPath = path.join(__dirname, '../data/content.json');
 
 router.get('/', async (req, res) => {
   try {
-    const data = await fs.readFile(dataPath, 'utf-8');
-    res.json(JSON.parse(data));
+    const rows = await db.select().from(content);
+
+    const contentData = {};
+    for (const row of rows) {
+      if (!contentData[row.language]) {
+        contentData[row.language] = {};
+      }
+      contentData[row.language][row.section] = row.data;
+    }
+
+    res.json(contentData);
   } catch (error) {
+    console.error('Failed to read content:', error);
     res.status(500).json({ error: 'Failed to read content' });
   }
 });
 
 router.put('/', async (req, res) => {
   try {
-    await fs.writeFile(dataPath, JSON.stringify(req.body, null, 2));
+    const contentData = req.body;
+
+    for (const [language, sections] of Object.entries(contentData)) {
+      for (const [section, data] of Object.entries(sections)) {
+        await db
+          .insert(content)
+          .values({ language, section, data })
+          .onConflictDoUpdate({
+            target: [content.language, content.section],
+            set: { data },
+          });
+      }
+    }
+
     res.json({ success: true });
   } catch (error) {
+    console.error('Failed to update content:', error);
     res.status(500).json({ error: 'Failed to update content' });
   }
 });

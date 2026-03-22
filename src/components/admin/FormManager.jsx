@@ -49,11 +49,11 @@ const FormManager = () => {
     }
   };
 
-  const handleDeleteTestimonial = async (index) => {
+  const handleDeleteTestimonial = async (id) => {
     if (!confirm('Delete this testimonial?')) return;
 
     try {
-      await fetch(`http://localhost:3001/api/forms/testimonials/${index}`, { method: 'DELETE' });
+      await fetch(`http://localhost:3001/api/forms/testimonials/${id}`, { method: 'DELETE' });
       fetchTestimonials();
     } catch (error) {
       alert('Failed to delete testimonial');
@@ -111,9 +111,9 @@ const FormManager = () => {
       <div>
         <h2 className="text-lg font-semibold text-zinc-100 mb-4">Current Testimonials</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {testimonials.map((testimonial, index) => (
+          {testimonials.map((testimonial) => (
             <div
-              key={index}
+              key={testimonial.id}
               className="bg-zinc-900/40 border border-zinc-800/60 rounded-xl p-4"
             >
               <p className="text-sm text-zinc-400 mb-3">"{testimonial.quote}"</p>
@@ -125,7 +125,7 @@ const FormManager = () => {
                   <span className="text-xs text-zinc-300">{testimonial.author}</span>
                 </div>
                 <button
-                  onClick={() => handleDeleteTestimonial(index)}
+                  onClick={() => handleDeleteTestimonial(testimonial.id)}
                   className="text-xs text-red-400 hover:text-red-300"
                 >
                   Delete

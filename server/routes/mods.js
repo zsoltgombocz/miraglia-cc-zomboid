@@ -1,15 +1,9 @@
 import express from 'express';
-import fs from 'fs/promises';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import SteamAPI from 'steam-api';
+import { db } from '../db.js';
+import { mods } from '../schema.js';
+import { eq, desc } from 'drizzle-orm';
 
 const router = express.Router();
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const dataPath = path.join(__dirname, '../data/mods.json');
-
-const steam = process.env.STEAM_API_KEY ? new SteamAPI(process.env.STEAM_API_KEY) : null;
 const modCache = new Map();
 
 async function fetchWorkshopItem(workshopId) {
@@ -18,10 +12,6 @@ async function fetchWorkshopItem(workshopId) {
   }
 
   try {
-    if (!steam) {
-      throw new Error('Steam API key not configured');
-    }
-
     const response = await fetch(
       `https://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v1/`,
       {
@@ -36,7 +26,7 @@ async function fetchWorkshopItem(workshopId) {
 
     if (item && item.result === 1) {
       const modData = {
-        id: workshopId,
+        workshopId: workshopId,
         name: item.title,
         description: item.short_description || item.description?.substring(0, 100) || '',
         image: item.preview_url,
@@ -53,9 +43,20 @@ async function fetchWorkshopItem(workshopId) {
 
 router.get('/', async (req, res) => {
   try {
-    const data = await fs.readFile(dataPath, 'utf-8');
-    res.json(JSON.parse(data));
+    const allMods = await db
+      .select({
+        id: mods.workshopId,
+        name: mods.name,
+        description: mods.description,
+        image: mods.image,
+        displayOrder: mods.displayOrder,
+      })
+      .from(mods)
+      .orderBy(mods.displayOrder, desc(mods.createdAt));
+
+    res.json(allMods);
   } catch (error) {
+    console.error('Failed to read mods:', error);
     res.json([]);
   }
 });
@@ -69,13 +70,23 @@ router.post('/', async (req, res) => {
       return res.status(404).json({ error: 'Workshop item not found' });
     }
 
-    const data = await fs.readFile(dataPath, 'utf-8');
-    const mods = JSON.parse(data);
-    mods.push(modData);
+    try {
+      await db.insert(mods).values({
+        workshopId: modData.workshopId,
+        name: modData.name,
+        description: modData.description,
+        image: modData.image,
+      });
 
-    await fs.writeFile(dataPath, JSON.stringify(mods, null, 2));
-    res.json(modData);
+      res.json({ id: workshopId, ...modData });
+    } catch (error) {
+      if (error.message.includes('UNIQUE constraint failed')) {
+        return res.status(400).json({ error: 'Mod already exists' });
+      }
+      throw error;
+    }
   } catch (error) {
+    console.error('Failed to add mod:', error);
     res.status(500).json({ error: 'Failed to add mod' });
   }
 });
@@ -83,15 +94,30 @@ router.post('/', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const data = await fs.readFile(dataPath, 'utf-8');
-    const mods = JSON.parse(data);
+    await db.delete(mods).where(eq(mods.workshopId, id));
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Failed to delete mod:', error);
+    res.status(500).json({ error: 'Failed to delete mod' });
+  }
+});
 
-    const filteredMods = mods.filter((mod) => mod.id !== id);
-    await fs.writeFile(dataPath, JSON.stringify(filteredMods, null, 2));
+// Reorder mods
+router.put('/reorder', async (req, res) => {
+  try {
+    const { mods: modOrder } = req.body; // Array of {id: workshopId, order: number}
+
+    for (const mod of modOrder) {
+      await db
+        .update(mods)
+        .set({ displayOrder: mod.order })
+        .where(eq(mods.workshopId, mod.id));
+    }
 
     res.json({ success: true });
   } catch (error) {
-    res.status(500).json({ error: 'Failed to delete mod' });
+    console.error('Failed to reorder mods:', error);
+    res.status(500).json({ error: 'Failed to reorder mods' });
   }
 });
 

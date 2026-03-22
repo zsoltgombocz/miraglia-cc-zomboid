@@ -1,16 +1,24 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 const Rules = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [openRule, setOpenRule] = useState(null);
+  const [content, setContent] = useState(null);
 
-  const rules = [
-    { titleKey: 'rules.rule1Title', contentKey: 'rules.rule1Content' },
-    { titleKey: 'rules.rule2Title', contentKey: 'rules.rule2Content' },
-    { titleKey: 'rules.rule3Title', contentKey: 'rules.rule3Content' },
-    { titleKey: 'rules.rule4Title', contentKey: 'rules.rule4Content' },
-    { titleKey: 'rules.rule5Title', contentKey: 'rules.rule5Content' },
+  useEffect(() => {
+    fetch('http://localhost:3001/api/content')
+      .then((res) => res.json())
+      .then((data) => setContent(data))
+      .catch((err) => console.error('Failed to fetch content:', err));
+  }, []);
+
+  const rules = content?.[language]?.rules || [
+    { title: t('rules.rule1Title'), content: t('rules.rule1Content') },
+    { title: t('rules.rule2Title'), content: t('rules.rule2Content') },
+    { title: t('rules.rule3Title'), content: t('rules.rule3Content') },
+    { title: t('rules.rule4Title'), content: t('rules.rule4Content') },
+    { title: t('rules.rule5Title'), content: t('rules.rule5Content') },
   ];
 
   const toggleRule = (index) => {
@@ -33,12 +41,12 @@ const Rules = () => {
             className="group border-b border-zinc-800/60 py-4"
           >
             <summary className="flex items-center justify-between cursor-pointer list-none text-sm font-medium text-zinc-200 hover:text-white transition-colors">
-              <span>{t(rule.titleKey)}</span>
+              <span>{rule.title}</span>
               <span className="transition-transform duration-200 group-open:rotate-180 text-zinc-500">
                 <iconify-icon icon="solar:alt-arrow-down-linear"></iconify-icon>
               </span>
             </summary>
-            <div className="text-sm text-zinc-500 mt-3 leading-relaxed pr-8">{t(rule.contentKey)}</div>
+            <div className="text-sm text-zinc-500 mt-3 leading-relaxed pr-8">{rule.content}</div>
           </details>
         ))}
       </div>

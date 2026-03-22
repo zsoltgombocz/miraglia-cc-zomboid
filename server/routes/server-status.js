@@ -1,12 +1,14 @@
 import express from 'express';
-import Rcon from 'rcon-srcds';
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const Rcon = require('rcon-srcds');
 
 const router = express.Router();
 
 let statusCache = {
-  status: 'offline',
-  players: 0,
-  maxPlayers: 64,
+  status: 'unavailable',
+  players: null,
+  maxPlayers: null,
   lastUpdated: null,
 };
 
@@ -26,6 +28,7 @@ async function connectRcon() {
     });
 
     await client.authenticate(process.env.RCON_PASSWORD);
+    console.log('RCON connected successfully');
     return client;
   } catch (error) {
     console.error('Failed to connect to RCON:', error.message);
@@ -41,32 +44,36 @@ async function fetchServerStatus() {
 
     if (!rconClient) {
       return {
-        status: 'offline',
-        players: 0,
-        maxPlayers: 64,
+        status: 'unavailable',
+        players: null,
+        maxPlayers: null,
         lastUpdated: new Date().toISOString(),
       };
     }
 
+    // Try to execute the players command
     const response = await rconClient.execute('players');
 
     // Parse player count from response
-    // Format varies by game, this is a simple implementation
+    // Format varies by game, adjust regex as needed for Project Zomboid
     const playerCount = response.match(/Players: (\d+)/i);
     const players = playerCount ? parseInt(playerCount[1]) : 0;
 
+    // If we successfully got data, server is online
     return {
       status: 'online',
       players,
-      maxPlayers: 64,
+      maxPlayers: 64, // You might want to get this from the RCON response too
       lastUpdated: new Date().toISOString(),
     };
   } catch (error) {
     console.error('Failed to fetch server status:', error.message);
+    // Clear the client so we try to reconnect next time
+    rconClient = null;
     return {
-      status: 'offline',
-      players: 0,
-      maxPlayers: 64,
+      status: 'unavailable',
+      players: null,
+      maxPlayers: null,
       lastUpdated: new Date().toISOString(),
     };
   }
@@ -88,7 +95,11 @@ router.get('/', async (req, res) => {
     statusCache = await fetchServerStatus();
   }
 
-  res.json(statusCache);
+  res.json({
+    ...statusCache,
+    ip: process.env.SERVER_IP || null,
+    port: process.env.SERVER_PORT || null,
+  });
 });
 
 export default router;

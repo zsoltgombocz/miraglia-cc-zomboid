@@ -1,10 +1,19 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 const HowToJoin = () => {
   const { t } = useLanguage();
   const [copiedIP, setCopiedIP] = useState(false);
   const [copiedPort, setCopiedPort] = useState(false);
+  const [serverStatus, setServerStatus] = useState(null);
+
+  useEffect(() => {
+    // Fetch server status for IP and port
+    fetch('http://localhost:3001/api/server-status')
+      .then((res) => res.json())
+      .then((data) => setServerStatus(data))
+      .catch((err) => console.error('Failed to fetch server status:', err));
+  }, []);
 
   const copyToClipboard = (text, type) => {
     navigator.clipboard.writeText(text).then(() => {
@@ -47,12 +56,13 @@ const HowToJoin = () => {
                 <span className="text-[10px] uppercase text-zinc-500 font-medium tracking-wider">
                   {t('howToJoin.ipAddress')}
                 </span>
-                <span className="text-sm font-mono text-zinc-300">123.45.67.89</span>
+                <span className="text-sm font-mono text-zinc-300">{serverStatus?.ip || '-'}</span>
               </div>
               <button
-                onClick={() => copyToClipboard('123.45.67.89', 'ip')}
+                onClick={() => copyToClipboard(serverStatus?.ip || '', 'ip')}
                 className="p-2 text-zinc-500 hover:text-zinc-200 hover:bg-zinc-800 rounded-md transition-colors"
                 title="Copy IP"
+                disabled={!serverStatus?.ip}
               >
                 <iconify-icon
                   icon={copiedIP ? 'solar:check-circle-linear' : 'solar:copy-linear'}
@@ -63,12 +73,13 @@ const HowToJoin = () => {
             <div className="w-full sm:w-32 bg-zinc-900/50 border border-zinc-800 rounded-lg p-1.5 pl-3 flex items-center justify-between">
               <div className="flex flex-col">
                 <span className="text-[10px] uppercase text-zinc-500 font-medium tracking-wider">{t('howToJoin.port')}</span>
-                <span className="text-sm font-mono text-zinc-300">16261</span>
+                <span className="text-sm font-mono text-zinc-300">{serverStatus?.port || '-'}</span>
               </div>
               <button
-                onClick={() => copyToClipboard('16261', 'port')}
+                onClick={() => copyToClipboard(serverStatus?.port || '', 'port')}
                 className="p-2 text-zinc-500 hover:text-zinc-200 hover:bg-zinc-800 rounded-md transition-colors"
                 title="Copy Port"
+                disabled={!serverStatus?.port}
               >
                 <iconify-icon
                   icon={copiedPort ? 'solar:check-circle-linear' : 'solar:copy-linear'}

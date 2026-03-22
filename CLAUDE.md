@@ -77,17 +77,20 @@ The app supports English and Hungarian with a minimal language switcher:
 
 The project includes a full admin panel at `/admin` for managing content:
 
-### Backend (Node.js + Express)
+### Backend (Node.js + Express + Drizzle ORM)
 
 Located in `server/` directory:
 
 - **server/index.js** - Main Express server with CORS, JSON support
+- **server/db.js** - Drizzle ORM database connection
+- **server/schema.js** - Database schema definitions (content, mods, forms, testimonials)
+- **server/database.js** - Database initialization and migration from JSON files
 - **server/routes/auth.js** - Password authentication
-- **server/routes/content.js** - Content management (hero, server info)
+- **server/routes/content.js** - Content management using Drizzle ORM
 - **server/routes/mods.js** - Workshop mod management with Steam API
 - **server/routes/forms.js** - Form submissions and testimonials
 - **server/routes/server-status.js** - RCON integration for live server stats
-- **server/data/** - JSON files for data storage (gitignored except .gitkeep)
+- **server/data/zomboid.db** - SQLite database (gitignored)
 
 ### Environment Variables
 
@@ -103,26 +106,55 @@ Copy `.env.example` to `.env` and configure:
 **Access**: Navigate to `http://localhost:5173/admin`
 
 1. **Content Editor**
-   - Edit hero section (title, description)
-   - Edit server info fields (region, gameplay style, wipe policy, etc.)
-   - Changes saved to `server/data/content.json`
+   - Edit hero section (title, description) for both languages
+   - Edit server info (region, gameplay style, wipe policy, etc.) for both languages
+   - Edit server rules (add, edit, remove rules) for both languages
+   - Language tabs for English/Hungarian content management
+   - Changes saved to SQLite database
+   - **Note**: Server status (online/offline, player count) is NOT editable - it comes exclusively from RCON
 
 2. **Mod Manager**
    - Add workshop mods by Steam Workshop ID
    - Auto-fetch mod details from Steam API (name, description, thumbnail)
    - Delete mods from the list
-   - Mods stored in `server/data/mods.json`
+   - Mods stored in SQLite database
 
 3. **Form & Testimonial Manager**
    - View all submitted forms from the feedback section
    - Promote feedback submissions to testimonials (survivor logs)
    - Delete forms or testimonials
-   - Forms stored in `server/data/forms.json`
-   - Testimonials stored in `server/data/testimonials.json`
+   - Data stored in SQLite database
+   - **Note**: Testimonials section is hidden on frontend if no testimonials exist
 
-### Data Flow
+### Database & Data Flow
 
-- Frontend fetches dynamic content from backend API
-- Admin panel updates are saved to JSON files in `server/data/`
-- Server status is cached and updated every 30 seconds via RCON (if configured)
-- Workshop mods are cached after first fetch to reduce API calls
+**Database**: SQLite with Drizzle ORM for type-safe queries
+
+- **Database file**: `server/data/zomboid.db`
+- **Schema**: Defined in `server/schema.js` (content, mods, forms, testimonials tables)
+- **Initialization**: On first run, reads from `content.json` and `testimonials.json` if they exist, then deletes them after migration
+- **Queries**: All routes use Drizzle ORM query builder for type safety and performance
+
+**Data Flow**:
+- Frontend fetches dynamic content from backend API endpoints
+- Admin panel updates are saved to SQLite database via Drizzle ORM
+- **Server status** (online/offline, players, IP, port) is queried exclusively from RCON every 30 seconds
+  - Endpoint: `/api/server-status`
+  - Hero component fetches and displays live RCON data
+  - No static server status fields exist in admin panel
+- Workshop mods are cached in memory after first fetch to reduce Steam API calls
+- All content supports multilanguage (English/Hungarian)
+
+### RCON Integration
+
+**Important**: The RCON package requires `require()` instead of ES imports. See `server/routes/server-status.js`:
+
+```javascript
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const Rcon = require('rcon-srcds');
+```
+
+- RCON credentials configured in `.env` (RCON_HOST, RCON_PORT, RCON_PASSWORD)
+- Status cached for 30 seconds to reduce RCON queries
+- Returns offline status if RCON connection fails

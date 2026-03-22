@@ -1,43 +1,51 @@
 import express from 'express';
-import fs from 'fs/promises';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import { db } from '../db.js';
+import { forms, testimonials } from '../schema.js';
+import { eq, desc } from 'drizzle-orm';
 
 const router = express.Router();
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const dataPath = path.join(__dirname, '../data/forms.json');
-const testimonialsPath = path.join(__dirname, '../data/testimonials.json');
 
 router.post('/submit', async (req, res) => {
   try {
     const { type, steamName, message } = req.body;
 
-    const data = await fs.readFile(dataPath, 'utf-8');
-    const forms = JSON.parse(data);
-
-    const newForm = {
-      id: Date.now().toString(),
+    const result = await db.insert(forms).values({
       type,
       steamName,
       message,
-      timestamp: new Date().toISOString(),
-    };
+    });
 
-    forms.push(newForm);
-    await fs.writeFile(dataPath, JSON.stringify(forms, null, 2));
-
-    res.json({ success: true, form: newForm });
+    res.json({
+      success: true,
+      form: {
+        id: result.lastInsertRowid,
+        type,
+        steamName,
+        message,
+      },
+    });
   } catch (error) {
+    console.error('Failed to submit form:', error);
     res.status(500).json({ error: 'Failed to submit form' });
   }
 });
 
 router.get('/', async (req, res) => {
   try {
-    const data = await fs.readFile(dataPath, 'utf-8');
-    res.json(JSON.parse(data));
+    const allForms = await db
+      .select({
+        id: forms.id,
+        type: forms.type,
+        steamName: forms.steamName,
+        message: forms.message,
+        timestamp: forms.createdAt,
+      })
+      .from(forms)
+      .orderBy(desc(forms.createdAt));
+
+    res.json(allForms);
   } catch (error) {
+    console.error('Failed to read forms:', error);
     res.json([]);
   }
 });
@@ -45,14 +53,10 @@ router.get('/', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const data = await fs.readFile(dataPath, 'utf-8');
-    const forms = JSON.parse(data);
-
-    const filteredForms = forms.filter((form) => form.id !== id);
-    await fs.writeFile(dataPath, JSON.stringify(filteredForms, null, 2));
-
+    await db.delete(forms).where(eq(forms.id, id));
     res.json({ success: true });
   } catch (error) {
+    console.error('Failed to delete form:', error);
     res.status(500).json({ error: 'Failed to delete form' });
   }
 });
@@ -62,29 +66,31 @@ router.post('/:id/promote', async (req, res) => {
   try {
     const { id } = req.params;
 
-    const formsData = await fs.readFile(dataPath, 'utf-8');
-    const forms = JSON.parse(formsData);
-    const form = forms.find((f) => f.id === id);
+    const form = await db.select().from(forms).where(eq(forms.id, id));
 
-    if (!form) {
+    if (!form || form.length === 0) {
       return res.status(404).json({ error: 'Form not found' });
     }
 
-    const testimonialsData = await fs.readFile(testimonialsPath, 'utf-8');
-    const testimonials = JSON.parse(testimonialsData);
+    const formData = form[0];
+    const initial = formData.steamName ? formData.steamName[0].toUpperCase() : 'A';
 
-    const initial = form.steamName ? form.steamName[0].toUpperCase() : 'A';
-    const newTestimonial = {
-      quote: form.message,
-      author: form.steamName,
+    await db.insert(testimonials).values({
+      quote: formData.message,
+      author: formData.steamName,
       initial,
-    };
+    });
 
-    testimonials.push(newTestimonial);
-    await fs.writeFile(testimonialsPath, JSON.stringify(testimonials, null, 2));
-
-    res.json({ success: true, testimonial: newTestimonial });
+    res.json({
+      success: true,
+      testimonial: {
+        quote: formData.message,
+        author: formData.steamName,
+        initial,
+      },
+    });
   } catch (error) {
+    console.error('Failed to promote form:', error);
     res.status(500).json({ error: 'Failed to promote form' });
   }
 });
@@ -92,25 +98,31 @@ router.post('/:id/promote', async (req, res) => {
 // Get testimonials
 router.get('/testimonials', async (req, res) => {
   try {
-    const data = await fs.readFile(testimonialsPath, 'utf-8');
-    res.json(JSON.parse(data));
+    const allTestimonials = await db
+      .select({
+        id: testimonials.id,
+        quote: testimonials.quote,
+        author: testimonials.author,
+        initial: testimonials.initial,
+      })
+      .from(testimonials)
+      .orderBy(desc(testimonials.createdAt));
+
+    res.json(allTestimonials);
   } catch (error) {
+    console.error('Failed to read testimonials:', error);
     res.json([]);
   }
 });
 
 // Delete testimonial
-router.delete('/testimonials/:index', async (req, res) => {
+router.delete('/testimonials/:id', async (req, res) => {
   try {
-    const index = parseInt(req.params.index);
-    const data = await fs.readFile(testimonialsPath, 'utf-8');
-    const testimonials = JSON.parse(data);
-
-    testimonials.splice(index, 1);
-    await fs.writeFile(testimonialsPath, JSON.stringify(testimonials, null, 2));
-
+    const { id } = req.params;
+    await db.delete(testimonials).where(eq(testimonials.id, id));
     res.json({ success: true });
   } catch (error) {
+    console.error('Failed to delete testimonial:', error);
     res.status(500).json({ error: 'Failed to delete testimonial' });
   }
 });

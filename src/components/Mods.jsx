@@ -4,12 +4,18 @@ import { useState, useEffect } from 'react';
 const Mods = () => {
   const { t } = useLanguage();
   const [mods, setMods] = useState([]);
+  const [collectionUrl, setCollectionUrl] = useState('');
 
   useEffect(() => {
     fetch('http://localhost:3001/api/mods')
       .then((res) => res.json())
       .then((data) => setMods(data))
       .catch((err) => console.error('Failed to fetch mods:', err));
+
+    fetch('http://localhost:3001/api/settings/collection_url')
+      .then((res) => res.json())
+      .then((data) => setCollectionUrl(data.value || ''))
+      .catch((err) => console.error('Failed to fetch collection URL:', err));
   }, []);
 
   return (
@@ -27,8 +33,11 @@ const Mods = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {mods.map((mod, index) => (
-          <div
+          <a
             key={index}
+            href={`https://steamcommunity.com/sharedfiles/filedetails/?id=${mod.id}`}
+            target="_blank"
+            rel="noopener noreferrer"
             className="p-3 border border-zinc-800/60 bg-zinc-900/10 rounded-xl flex items-center gap-3 hover:bg-zinc-900/40 transition-colors group"
           >
             <img
@@ -41,27 +50,28 @@ const Mods = () => {
                 <span className="text-sm font-medium text-zinc-200 group-hover:text-white transition-colors">
                   {mod.name}
                 </span>
-                <button
-                  className="text-zinc-500 group-hover:text-zinc-200 transition-colors"
-                  title="View on Workshop"
-                >
+                <span className="text-zinc-500 group-hover:text-zinc-200 transition-colors">
                   <iconify-icon icon="solar:arrow-right-up-linear" className="text-lg"></iconify-icon>
-                </button>
+                </span>
               </div>
               <span className="text-xs text-zinc-500 line-clamp-1">{mod.description}</span>
             </div>
-          </div>
+          </a>
         ))}
       </div>
 
-      <div className="mt-6 flex items-center gap-4">
-        <a
-          href="#"
-          className="inline-flex items-center gap-2 text-sm text-lime-600 hover:text-lime-500 font-medium transition-colors"
-        >
-          {t('mods.subscribeCollection')} <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
-        </a>
-      </div>
+      {collectionUrl && (
+        <div className="mt-6 flex items-center gap-4">
+          <a
+            href={collectionUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm text-lime-600 hover:text-lime-500 font-medium transition-colors"
+          >
+            {t('mods.subscribeCollection')} <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
+          </a>
+        </div>
+      )}
     </section>
   );
 };

@@ -37,4 +37,6 @@ aura.build
 
 # Data storage
 server/data/*.json
+server/data/*.db
+server/data/*.db-*
 !server/data/.gitkeep
