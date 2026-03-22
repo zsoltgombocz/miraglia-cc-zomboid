@@ -3,8 +3,6 @@ import express from 'express';
 const WORKSHOP_MODS = [
   1299328280,
   2503622437,
-  2896041179,
-  3077900375,
   3632444452,
   3580276809,
   3461263912,
@@ -55,6 +53,8 @@ const WORKSHOP_MODS = [
   3268487204,
   3469292499,
   3386906181,
+  2896041179,
+  3077900375,
 ];
 
 const router = express.Router();

@@ -34,7 +34,9 @@
   },
   "mods": {
     "title": "Workshop Mods",
-    "subscribeCollection": "Subscribe to full collection"
+    "subscribeCollection": "Subscribe to full collection",
+    "showMore": "Show More",
+    "showLess": "Show Less"
   },
   "howToJoin": {
     "title": "How to Join",

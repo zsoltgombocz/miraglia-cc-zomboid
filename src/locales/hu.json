@@ -34,7 +34,9 @@
   },
   "mods": {
     "title": "Workshop Modok",
-    "subscribeCollection": "Feliratkozás a teljes gyűjteményre"
+    "subscribeCollection": "Feliratkozás a teljes gyűjteményre",
+    "showMore": "Több mutatása",
+    "showLess": "Kevesebb mutatása"
   },
   "howToJoin": {
     "title": "Hogyan csatlakozz",
