@@ -27,10 +27,6 @@ const Mods = () => {
         </div>
       </div>
 
-      <p className="text-sm text-zinc-400 mb-6 border-l-2 border-lime-800 pl-4 py-1">
-        {t('mods.important')}
-      </p>
-
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {mods.map((mod, index) => (
           <a

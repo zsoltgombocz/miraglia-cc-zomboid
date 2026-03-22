@@ -13,8 +13,6 @@
     "status": "Státusz",
     "online": "Online",
     "offline": "Offline",
-    "unavailable": "Szerver lekérdezése sikertelen",
-    "unreachable": "Elérhetetlen",
     "players": "Játékosok",
     "ipAddress": "IP Cím",
     "port": "Port",
@@ -36,7 +34,6 @@
   },
   "mods": {
     "title": "Workshop Modok",
-    "important": "Fontos: Kérjük, iratkozz fel a gyűjteményünkre csatlakozás előtt, hogy elkerüld a kapcsolat időtúllépését.",
     "subscribeCollection": "Feliratkozás a teljes gyűjteményre"
   },
   "howToJoin": {

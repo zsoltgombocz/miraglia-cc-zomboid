@@ -1,0 +1,45 @@
+# Dependencies
+node_modules
+bun.lockb
+
+# Build outputs
+dist
+*.log
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Git
+.git
+.gitignore
+.github
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+.DS_Store
+
+# Testing
+coverage
+
+# Documentation
+README.md
+CLAUDE.md
+*.md
+
+# Database (will be mounted as volume)
+server/data/*.db
+server/data/*.db-*
+server/data/*.json
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Claude
+.claude

@@ -13,8 +13,6 @@
     "status": "Status",
     "online": "Online",
     "offline": "Offline",
-    "unavailable": "Failed to Query Server",
-    "unreachable": "Unreachable",
     "players": "Players",
     "ipAddress": "IP Address",
     "port": "Port",
@@ -36,7 +34,6 @@
   },
   "mods": {
     "title": "Workshop Mods",
-    "important": "Important: Please subscribe to our collection before joining to avoid connection timeouts.",
     "subscribeCollection": "Subscribe to full collection"
   },
   "howToJoin": {
