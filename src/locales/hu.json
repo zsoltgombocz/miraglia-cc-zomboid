@@ -8,7 +8,7 @@
     "join": "Csatlakozás"
   },
   "hero": {
-    "title": "NewDawn Zomboid",
+    "title": "EU/HU - NewDawn Modded",
     "description": "Brutális, közösség által vezérelt túlélési élmény. Gyűjts, építs, és éld túl a hordát egy gondosan kidolgozott világban.",
     "status": "Státusz",
     "online": "Online",
@@ -22,15 +22,15 @@
   "serverInfo": {
     "title": "Szerver áttekintés",
     "region": "Régió",
-    "regionValue": "Észak-Amerika (Kelet)",
+    "regionValue": "Közép Európa - Németország",
     "gameplayStyle": "Játékmód",
-    "gameplayStyleValue": "PvPvE / Könnyű Roleplay",
-    "wipePolicy": "Törlési szabályzat",
+    "gameplayStyleValue": "PvPvE / Könnyed Roleplay",
+    "wipePolicy": "Wipe szabályzat",
     "wipePolicyValue": "Nincs tervezett törlés",
-    "lootRespawn": "Zsákmány újratöltés",
-    "lootRespawnValue": "2 játékbeli hónaponként",
+    "lootRespawn": "Loot újratöltés",
+    "lootRespawnValue": "Nincs loot újratöltés",
     "additionalNotes": "További megjegyzések",
-    "additionalNotesValue": "A játékon belüli hangchat erősen ajánlott. A frakciók 3 nap játékidő után igényelhetnek biztonságos házakat. Az olvasási sebesség 2x-re van növelve, hogy tiszteletben tartsuk az idődet."
+    "additionalNotesValue": "A játékon belüli hangchat erősen ajánlott. A frakciók 7 nap játékidő után hohatnak létre safe house-t, halál után újraéledésre ott is van lehetőség. Az olvasási sebesség 4x-re van növelve, hogy tiszteletben tartsuk az idődet."
   },
   "mods": {
     "title": "Workshop Modok",
@@ -38,12 +38,16 @@
   },
   "howToJoin": {
     "title": "Hogyan csatlakozz",
-    "step1Title": "1. Iratkozz fel a modokra",
-    "step1Description": "Győződj meg róla, hogy letöltötted az összes szükséges modot a Steam Workshopról a játék indítása előtt.",
-    "step2Title": "2. Add meg a szerver adatait",
-    "step2Description": "Indítsd el a Project Zomboidot, válaszd a 'Csatlakozás' opciót, és adj hozzá egy új szervert az alábbi hitelesítő adatokkal.",
-    "step3Title": "3. Túlélés",
-    "step3Description": "Hozd létre a karakteredet, válaszd ki gondosan a kezdőpontot, és próbálj meg nem megharapva lenni.",
+    "step1Title": "1. Indítsd el a játékot",
+    "step1Description": "Indítsd el a Project Zomboidot, majd a főmenüben válaszd a „Join” (Csatlakozás) opciót.",
+    "step2Title": "2. Add hozzá a szervert",
+    "step2Description": "Kattints az „Add Server” gombra, majd add meg az alábbi IP címet és portot. A szerver nevét tetszőlegesen megadhatod.",
+    "step3Title": "3. Csatlakozz",
+    "step3Description": "Lépj be a szerverre. A szükséges modok első csatlakozáskor automatikusan letöltődnek.",
+    "step4Title": "4. Karakter létrehozása",
+    "step4Description": "Hozd létre a karaktered, válaszd ki a kezdő helyszínt, majd lépj be a világba.",
+    "step5Title": "5. Maradj életben",
+    "step5Description": "Figyelj, készülj fel, és próbáld elkerülni a fertőzést.",
     "ipAddress": "IP Cím",
     "port": "Port"
   },
@@ -54,7 +58,7 @@
     "rule2Title": "2. Nincs csalás vagy kihasználás",
     "rule2Content": "Harmadik féltől származó szoftverek használata, tárgyak duplikálása vagy térképhibák kihasználása szigorúan tilos. Jelentsd a hibákat, ha találsz ilyeneket.",
     "rule3Title": "3. Biztonságos ház mechanikák",
-    "rule3Content": "3 nap túlélési idő után igényelhetsz biztonságos házat. A biztonságos házakba való glitchelés vagy a biztonságos ház falainak kihasználáson keresztüli elpusztítása tilos. A normál raid mechanikák érvényesek.",
+    "rule3Content": "7 nap túlélési idő után igényelhetsz biztonságos házat. A biztonságos házakba való glitchelés vagy a biztonságos ház falainak kihasználáson keresztüli elpusztítása tilos. A normál raid mechanikák érvényesek.",
     "rule4Title": "4. A harci kilépés gyávaság",
     "rule4Content": "Nem megengedett a szerver elhagyása aktív PvP harc közben vagy zombik általi aktív üldözés során a halál elkerülése érdekében. A karaktered rövid ideig a világban marad a kilépés után.",
     "rule5Title": "5. Az admin döntések véglegesek",

@@ -2,18 +2,10 @@ import { useState, useEffect } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 const Rules = () => {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
   const [openRule, setOpenRule] = useState(null);
-  const [content, setContent] = useState(null);
 
-  useEffect(() => {
-    fetch('http://localhost:3001/api/content')
-      .then((res) => res.json())
-      .then((data) => setContent(data))
-      .catch((err) => console.error('Failed to fetch content:', err));
-  }, []);
-
-  const rules = content?.[language]?.rules || [
+  const rules = [
     { title: t('rules.rule1Title'), content: t('rules.rule1Content') },
     { title: t('rules.rule2Title'), content: t('rules.rule2Content') },
     { title: t('rules.rule3Title'), content: t('rules.rule3Content') },

@@ -8,8 +8,7 @@ const HowToJoin = () => {
   const [serverStatus, setServerStatus] = useState(null);
 
   useEffect(() => {
-    // Fetch server status for IP and port
-    fetch('http://localhost:3001/api/server-status')
+    fetch('http://localhost:3000/api/server-status')
       .then((res) => res.json())
       .then((data) => setServerStatus(data))
       .catch((err) => console.error('Failed to fetch server status:', err));
@@ -46,8 +45,16 @@ const HowToJoin = () => {
         <div className="relative">
           <div className="absolute -left-[30px] top-1 w-3 h-3 bg-zinc-950 border-2 border-zinc-700 rounded-full"></div>
           <h3 className="text-sm font-medium text-zinc-200 mb-2">{t('howToJoin.step2Title')}</h3>
-          <p className="text-sm text-zinc-500 mb-4">
+          <p className="text-sm text-zinc-500">
             {t('howToJoin.step2Description')}
+          </p>
+        </div>
+
+        <div className="relative">
+          <div className="absolute -left-[30px] top-1 w-3 h-3 bg-zinc-950 border-2 border-zinc-700 rounded-full"></div>
+          <h3 className="text-sm font-medium text-zinc-200 mb-2">{t('howToJoin.step3Title')}</h3>
+          <p className="text-sm text-zinc-500 mb-4">
+            {t('howToJoin.step3Description')}
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3">
@@ -92,9 +99,17 @@ const HowToJoin = () => {
 
         <div className="relative">
           <div className="absolute -left-[30px] top-1 w-3 h-3 bg-zinc-950 border-2 border-zinc-700 rounded-full"></div>
-          <h3 className="text-sm font-medium text-zinc-200 mb-2">{t('howToJoin.step3Title')}</h3>
+          <h3 className="text-sm font-medium text-zinc-200 mb-2">{t('howToJoin.step4Title')}</h3>
           <p className="text-sm text-zinc-500">
-            {t('howToJoin.step3Description')}
+            {t('howToJoin.step4Description')}
+          </p>
+        </div>
+
+        <div className="relative">
+          <div className="absolute -left-[30px] top-1 w-3 h-3 bg-zinc-950 border-2 border-zinc-700 rounded-full"></div>
+          <h3 className="text-sm font-medium text-zinc-200 mb-2">{t('howToJoin.step5Title')}</h3>
+          <p className="text-sm text-zinc-500">
+            {t('howToJoin.step5Description')}
           </p>
         </div>
       </div>

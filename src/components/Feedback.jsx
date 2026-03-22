@@ -1,20 +1,20 @@
 import { useRef, useState, useEffect } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 
+const TESTIMONIALS = [
+  {
+    author: "Miraglia",
+    quote: "Best server ever!!!",
+    initial: "M"
+  }
+];
+
 const Feedback = () => {
   const { t } = useLanguage();
   const sliderRef = useRef(null);
   const [selectedType, setSelectedType] = useState('feedback');
-  const [testimonials, setTestimonials] = useState([]);
   const [steamName, setSteamName] = useState('');
   const [message, setMessage] = useState('');
-
-  useEffect(() => {
-    fetch('http://localhost:3001/api/forms/testimonials')
-      .then((res) => res.json())
-      .then((data) => setTestimonials(data))
-      .catch((err) => console.error('Failed to fetch testimonials:', err));
-  }, []);
 
   const scrollSlider = (direction) => {
     if (sliderRef.current) {
@@ -54,7 +54,7 @@ const Feedback = () => {
     <section id="feedback" className="scroll-mt-32">
       <div className="flex flex-col gap-16">
         {/* Survivor Log Slider - Only show if testimonials exist */}
-        {testimonials.length > 0 && (
+        {TESTIMONIALS.length > 0 && (
         <div className="w-full">
           <div className="flex items-center gap-3 mb-8">
             <iconify-icon icon="solar:chat-round-line-linear" className="text-zinc-500 text-lg"></iconify-icon>
@@ -66,7 +66,7 @@ const Feedback = () => {
               ref={sliderRef}
               className="flex gap-4 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-4 scroll-smooth"
             >
-              {testimonials.map((testimonial, index) => (
+              {TESTIMONIALS.map((testimonial, index) => (
                 <div
                   key={index}
                   className="snap-start shrink-0 w-[85%] sm:w-80 p-5 border border-zinc-800/60 bg-zinc-900/10 rounded-xl relative flex flex-col"

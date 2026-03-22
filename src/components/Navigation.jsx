@@ -17,7 +17,7 @@ const Navigation = () => {
       <div className="flex md:flex-col gap-1.5 p-1.5 bg-zinc-900/80 backdrop-blur-xl border border-zinc-800/80 rounded-full md:rounded-2xl shadow-lg shadow-black/50 overflow-x-auto no-scrollbar">
         <LanguageSwitcher />
 
-        <div className="w-[1px] h-4 md:w-4 md:h-[1px] bg-zinc-800 my-auto mx-1 md:mx-auto"></div>
+        <div className="w-px h-4 md:w-4 md:h-px bg-zinc-800 my-auto mx-1 md:mx-auto"></div>
 
         {navItems.map((item) => (
           <a

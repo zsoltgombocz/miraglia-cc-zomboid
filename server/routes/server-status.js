@@ -1,8 +1,8 @@
 import express from 'express';
 import { Rcon } from "rcon-client"
-import {configDotenv} from "dotenv";
+import dotenv from 'dotenv';
 
-configDotenv();
+dotenv.config();
 
 const router = express.Router();
 

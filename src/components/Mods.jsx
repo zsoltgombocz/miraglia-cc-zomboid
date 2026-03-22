@@ -4,18 +4,12 @@ import { useState, useEffect } from 'react';
 const Mods = () => {
   const { t } = useLanguage();
   const [mods, setMods] = useState([]);
-  const [collectionUrl, setCollectionUrl] = useState('');
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/mods')
+    fetch('http://localhost:3000/api/mods')
       .then((res) => res.json())
       .then((data) => setMods(data))
       .catch((err) => console.error('Failed to fetch mods:', err));
-
-    fetch('http://localhost:3001/api/settings/collection_url')
-      .then((res) => res.json())
-      .then((data) => setCollectionUrl(data.value || ''))
-      .catch((err) => console.error('Failed to fetch collection URL:', err));
   }, []);
 
   return (
@@ -31,7 +25,7 @@ const Mods = () => {
         {mods.map((mod, index) => (
           <a
             key={index}
-            href={`https://steamcommunity.com/sharedfiles/filedetails/?id=${mod.id}`}
+            href={`https://steamcommunity.com/sharedfiles/filedetails/?id=${mod.workshopId || mod.id}`}
             target="_blank"
             rel="noopener noreferrer"
             className="p-3 border border-zinc-800/60 bg-zinc-900/10 rounded-xl flex items-center gap-3 hover:bg-zinc-900/40 transition-colors group"
@@ -50,16 +44,14 @@ const Mods = () => {
                   <iconify-icon icon="solar:arrow-right-up-linear" className="text-lg"></iconify-icon>
                 </span>
               </div>
-              <span className="text-xs text-zinc-500 line-clamp-1">{mod.description}</span>
             </div>
           </a>
         ))}
       </div>
 
-      {collectionUrl && (
         <div className="mt-6 flex items-center gap-4">
           <a
-            href={collectionUrl}
+            href={"#"}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-sm text-lime-600 hover:text-lime-500 font-medium transition-colors"
@@ -67,7 +59,6 @@ const Mods = () => {
             {t('mods.subscribeCollection')} <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
           </a>
         </div>
-      )}
     </section>
   );
 };

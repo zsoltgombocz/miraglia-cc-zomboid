@@ -2,18 +2,12 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { useState, useEffect } from 'react';
 
 const Hero = () => {
-  const { t, language } = useLanguage();
-  const [content, setContent] = useState(null);
+  const { t } = useLanguage();
   const [serverStatus, setServerStatus] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/content')
-      .then((res) => res.json())
-      .then((data) => setContent(data))
-      .catch((err) => console.error('Failed to fetch content:', err));
-
     const fetchServerStatus = () => {
-      fetch('http://localhost:3001/api/server-status')
+      fetch('http://localhost:3000/api/server-status')
         .then((res) => res.json())
         .then((data) => setServerStatus(data))
         .catch((err) => console.error('Failed to fetch server status:', err));
@@ -25,8 +19,6 @@ const Hero = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const heroContent = content?.[language]?.hero;
-
   return (
     <section id="home" className="flex flex-col items-start pt-12 md:pt-0">
       <div className="text-sm font-semibold tracking-tighter text-zinc-300 mb-16 uppercase">
@@ -34,10 +26,10 @@ const Hero = () => {
       </div>
 
       <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-zinc-100 mb-4 leading-tight">
-        {heroContent?.title || t('hero.title')}
+        {t('hero.title')}
       </h1>
       <p className="text-lg text-zinc-400 mb-12 max-w-xl">
-        {heroContent?.description || t('hero.description')}
+        {t('hero.description')}
       </p>
 
       {/* Status Block */}
