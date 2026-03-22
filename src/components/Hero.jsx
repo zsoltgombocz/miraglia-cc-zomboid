@@ -1,7 +1,18 @@
 import { useLanguage } from '../contexts/LanguageContext';
+import { useState, useEffect } from 'react';
 
 const Hero = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const [content, setContent] = useState(null);
+
+  useEffect(() => {
+    fetch('http://localhost:3001/api/content')
+      .then((res) => res.json())
+      .then((data) => setContent(data))
+      .catch((err) => console.error('Failed to fetch content:', err));
+  }, []);
+
+  const heroContent = content?.[language]?.hero;
 
   return (
     <section id="home" className="flex flex-col items-start pt-12 md:pt-0">
@@ -10,10 +21,10 @@ const Hero = () => {
       </div>
 
       <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-zinc-100 mb-4 leading-tight">
-        {t('hero.title')}
+        {heroContent?.title || t('hero.title')}
       </h1>
       <p className="text-lg text-zinc-400 mb-12 max-w-xl">
-        {t('hero.description')}
+        {heroContent?.description || t('hero.description')}
       </p>
 
       {/* Status Block */}

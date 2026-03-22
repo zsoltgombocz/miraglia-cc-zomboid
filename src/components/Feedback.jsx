@@ -1,37 +1,20 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 const Feedback = () => {
   const { t } = useLanguage();
   const sliderRef = useRef(null);
   const [selectedType, setSelectedType] = useState('feedback');
+  const [testimonials, setTestimonials] = useState([]);
+  const [steamName, setSteamName] = useState('');
+  const [message, setMessage] = useState('');
 
-  const testimonials = [
-    {
-      quote:
-        "Best balance of mods I've found. It's brutal enough to be scary, but the QoL mods make it bearable to rebuild after dying.",
-      author: 'Marcus T.',
-      initial: 'M',
-    },
-    {
-      quote:
-        'The admin team is super responsive. The server economy and faction wars make late-game actually worth playing.',
-      author: 'Sarah204',
-      initial: 'S',
-    },
-    {
-      quote:
-        'Love the customized safehouse rules. Gives us a reason to fight over territory without completely losing our progress to a glitch.',
-      author: 'Alex G.',
-      initial: 'A',
-    },
-    {
-      quote:
-        "Hardcore survival at its finest. If you're looking for an easy time, look elsewhere. The loot settings are perfectly scarce.",
-      author: 'ZombieBait',
-      initial: 'Z',
-    },
-  ];
+  useEffect(() => {
+    fetch('http://localhost:3001/api/forms/testimonials')
+      .then((res) => res.json())
+      .then((data) => setTestimonials(data))
+      .catch((err) => console.error('Failed to fetch testimonials:', err));
+  }, []);
 
   const scrollSlider = (direction) => {
     if (sliderRef.current) {
@@ -40,9 +23,31 @@ const Feedback = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission
+
+    try {
+      const response = await fetch('http://localhost:3001/api/forms/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: selectedType,
+          steamName,
+          message,
+        }),
+      });
+
+      if (response.ok) {
+        alert('Thank you for your feedback!');
+        setSteamName('');
+        setMessage('');
+        setSelectedType('feedback');
+      } else {
+        alert('Failed to submit feedback');
+      }
+    } catch (error) {
+      alert('Failed to submit feedback');
+    }
   };
 
   return (
@@ -134,8 +139,11 @@ const Feedback = () => {
                 <label className="text-xs font-medium text-zinc-500">{t('feedback.steamName')}</label>
                 <input
                   type="text"
+                  value={steamName}
+                  onChange={(e) => setSteamName(e.target.value)}
                   className="w-full bg-zinc-950/50 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-zinc-200 placeholder:text-zinc-700 focus:outline-none focus:border-zinc-600 focus:ring-1 focus:ring-zinc-600 transition-colors"
                   placeholder={t('feedback.steamNamePlaceholder')}
+                  required
                 />
               </div>
 
@@ -143,8 +151,11 @@ const Feedback = () => {
                 <label className="text-xs font-medium text-zinc-500">{t('feedback.message')}</label>
                 <textarea
                   rows="4"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
                   className="w-full bg-zinc-950/50 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-zinc-200 placeholder:text-zinc-700 focus:outline-none focus:border-zinc-600 focus:ring-1 focus:ring-zinc-600 transition-colors resize-none"
                   placeholder={t('feedback.messagePlaceholder')}
+                  required
                 ></textarea>
               </div>
 

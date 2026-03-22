@@ -4,6 +4,7 @@ const ContentEditor = () => {
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [activeLanguage, setActiveLanguage] = useState('en');
 
   useEffect(() => {
     fetchContent();
@@ -37,12 +38,15 @@ const ContentEditor = () => {
     }
   };
 
-  const updateField = (section, field, value) => {
+  const updateField = (lang, section, field, value) => {
     setContent((prev) => ({
       ...prev,
-      [section]: {
-        ...prev[section],
-        [field]: value,
+      [lang]: {
+        ...prev[lang],
+        [section]: {
+          ...prev[lang][section],
+          [field]: value,
+        },
       },
     }));
   };
@@ -51,8 +55,34 @@ const ContentEditor = () => {
     return <div className="text-zinc-500">Loading...</div>;
   }
 
+  const currentContent = content?.[activeLanguage] || {};
+
   return (
     <div className="space-y-8">
+      {/* Language Tabs */}
+      <div className="flex gap-2 border-b border-zinc-800">
+        <button
+          onClick={() => setActiveLanguage('en')}
+          className={`px-4 py-2 font-medium transition-colors border-b-2 ${
+            activeLanguage === 'en'
+              ? 'text-lime-500 border-lime-500'
+              : 'text-zinc-500 border-transparent hover:text-zinc-300'
+          }`}
+        >
+          English
+        </button>
+        <button
+          onClick={() => setActiveLanguage('hu')}
+          className={`px-4 py-2 font-medium transition-colors border-b-2 ${
+            activeLanguage === 'hu'
+              ? 'text-lime-500 border-lime-500'
+              : 'text-zinc-500 border-transparent hover:text-zinc-300'
+          }`}
+        >
+          Hungarian
+        </button>
+      </div>
+
       {/* Hero Section */}
       <div className="bg-zinc-900/40 border border-zinc-800/60 rounded-xl p-6">
         <h2 className="text-lg font-semibold text-zinc-100 mb-4">Hero Section</h2>
@@ -61,8 +91,8 @@ const ContentEditor = () => {
             <label className="block text-sm font-medium text-zinc-400 mb-2">Title</label>
             <input
               type="text"
-              value={content?.hero?.title || ''}
-              onChange={(e) => updateField('hero', 'title', e.target.value)}
+              value={currentContent.hero?.title || ''}
+              onChange={(e) => updateField(activeLanguage, 'hero', 'title', e.target.value)}
               className="w-full bg-zinc-950/50 border border-zinc-800 rounded-lg px-3 py-2 text-zinc-200 focus:outline-none focus:border-lime-600"
             />
           </div>
@@ -70,8 +100,8 @@ const ContentEditor = () => {
             <label className="block text-sm font-medium text-zinc-400 mb-2">Description</label>
             <textarea
               rows="3"
-              value={content?.hero?.description || ''}
-              onChange={(e) => updateField('hero', 'description', e.target.value)}
+              value={currentContent.hero?.description || ''}
+              onChange={(e) => updateField(activeLanguage, 'hero', 'description', e.target.value)}
               className="w-full bg-zinc-950/50 border border-zinc-800 rounded-lg px-3 py-2 text-zinc-200 focus:outline-none focus:border-lime-600 resize-none"
             />
           </div>
@@ -82,7 +112,7 @@ const ContentEditor = () => {
       <div className="bg-zinc-900/40 border border-zinc-800/60 rounded-xl p-6">
         <h2 className="text-lg font-semibold text-zinc-100 mb-4">Server Info</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {Object.entries(content?.serverInfo || {}).map(([key, value]) => (
+          {Object.entries(currentContent.serverInfo || {}).map(([key, value]) => (
             <div key={key}>
               <label className="block text-sm font-medium text-zinc-400 mb-2 capitalize">
                 {key.replace(/([A-Z])/g, ' $1').trim()}
@@ -90,7 +120,7 @@ const ContentEditor = () => {
               <input
                 type="text"
                 value={value}
-                onChange={(e) => updateField('serverInfo', key, e.target.value)}
+                onChange={(e) => updateField(activeLanguage, 'serverInfo', key, e.target.value)}
                 className="w-full bg-zinc-950/50 border border-zinc-800 rounded-lg px-3 py-2 text-zinc-200 focus:outline-none focus:border-lime-600"
               />
             </div>

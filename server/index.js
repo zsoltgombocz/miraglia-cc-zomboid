@@ -30,16 +30,31 @@ async function initializeDataFiles() {
 
   const defaultFiles = {
     'content.json': {
-      hero: {
-        title: 'NewDawn Zomboid',
-        description: 'A brutal, community-driven survival experience. Scavenge, build, and outlive the horde in a meticulously crafted world.',
+      en: {
+        hero: {
+          title: 'NewDawn Zomboid',
+          description: 'A brutal, community-driven survival experience. Scavenge, build, and outlive the horde in a meticulously crafted world.',
+        },
+        serverInfo: {
+          region: 'North America (East)',
+          gameplayStyle: 'PvPvE / Light Roleplay',
+          wipePolicy: 'No scheduled wipes',
+          lootRespawn: 'Every 2 in-game months',
+          additionalNotes: 'In-game voice chat is highly encouraged. Factions can claim safehouses after 3 days of playtime. Reading speeds are increased by 2x to respect your time.',
+        },
       },
-      serverInfo: {
-        region: 'North America (East)',
-        gameplayStyle: 'PvPvE / Light Roleplay',
-        wipePolicy: 'No scheduled wipes',
-        lootRespawn: 'Every 2 in-game months',
-        additionalNotes: 'In-game voice chat is highly encouraged. Factions can claim safehouses after 3 days of playtime. Reading speeds are increased by 2x to respect your time.',
+      hu: {
+        hero: {
+          title: 'NewDawn Zomboid',
+          description: 'Brutális, közösség által vezérelt túlélési élmény. Gyűjts, építs, és éld túl a hordát egy gondosan kidolgozott világban.',
+        },
+        serverInfo: {
+          region: 'Észak-Amerika (Kelet)',
+          gameplayStyle: 'PvPvE / Könnyű Roleplay',
+          wipePolicy: 'Nincs tervezett törlés',
+          lootRespawn: '2 játékbeli hónaponként',
+          additionalNotes: 'A játékon belüli hangchat erősen ajánlott. A frakciók 3 nap játékidő után igényelhetnek biztonságos házakat. Az olvasási sebesség 2x-re van növelve, hogy tiszteletben tartsuk az idődet.',
+        },
       },
     },
     'mods.json': [],

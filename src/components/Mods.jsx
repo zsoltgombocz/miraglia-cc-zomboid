@@ -1,39 +1,16 @@
 import { useLanguage } from '../contexts/LanguageContext';
+import { useState, useEffect } from 'react';
 
 const Mods = () => {
   const { t } = useLanguage();
-  const mods = [
-    {
-      name: "Brita's Weapons",
-      description: 'Expanded arsenal and attachments.',
-      image: 'https://images.unsplash.com/photo-1595590424283-b8f1784cb2c2?w=100&h=100&fit=crop',
-    },
-    {
-      name: 'True Actions',
-      description: 'Adds sitting and lying down animations.',
-      image: 'https://images.unsplash.com/photo-1555099962-4199c345e5dd?w=100&h=100&fit=crop',
-    },
-    {
-      name: 'Filibuster Cars',
-      description: 'Dozens of new lore-friendly vehicles.',
-      image: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=100&h=100&fit=crop',
-    },
-    {
-      name: 'RV Interior',
-      description: 'Explore and live inside larger vehicles.',
-      image: 'https://images.unsplash.com/photo-1523987355523-c7b5b0dd90a7?w=100&h=100&fit=crop',
-    },
-    {
-      name: 'Authentic Z',
-      description: 'More clothing, zombies, and upgrades.',
-      image: 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=100&h=100&fit=crop',
-    },
-    {
-      name: 'Skill Journal',
-      description: 'Record and recover skills after death.',
-      image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?w=100&h=100&fit=crop',
-    },
-  ];
+  const [mods, setMods] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:3001/api/mods')
+      .then((res) => res.json())
+      .then((data) => setMods(data))
+      .catch((err) => console.error('Failed to fetch mods:', err));
+  }, []);
 
   return (
     <section id="mods" className="scroll-mt-32">
