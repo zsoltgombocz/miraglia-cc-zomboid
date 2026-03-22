@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const HowToJoin = () => {
+  const { t } = useLanguage();
   const [copiedIP, setCopiedIP] = useState(false);
   const [copiedPort, setCopiedPort] = useState(false);
 
@@ -20,30 +22,30 @@ const HowToJoin = () => {
     <section id="join" className="scroll-mt-32">
       <div className="flex items-center gap-3 mb-8">
         <iconify-icon icon="solar:login-2-linear" className="text-zinc-500 text-lg"></iconify-icon>
-        <h2 className="text-xl font-semibold tracking-tight text-zinc-100">How to Join</h2>
+        <h2 className="text-xl font-semibold tracking-tight text-zinc-100">{t('howToJoin.title')}</h2>
       </div>
 
       <div className="relative pl-6 border-l border-zinc-800 flex flex-col gap-10">
         <div className="relative">
           <div className="absolute -left-[30px] top-1 w-3 h-3 bg-zinc-950 border-2 border-zinc-700 rounded-full"></div>
-          <h3 className="text-sm font-medium text-zinc-200 mb-2">1. Subscribe to Mods</h3>
+          <h3 className="text-sm font-medium text-zinc-200 mb-2">{t('howToJoin.step1Title')}</h3>
           <p className="text-sm text-zinc-500">
-            Ensure you have downloaded all required mods from the Steam Workshop before launching the game.
+            {t('howToJoin.step1Description')}
           </p>
         </div>
 
         <div className="relative">
           <div className="absolute -left-[30px] top-1 w-3 h-3 bg-zinc-950 border-2 border-zinc-700 rounded-full"></div>
-          <h3 className="text-sm font-medium text-zinc-200 mb-2">2. Enter Server Details</h3>
+          <h3 className="text-sm font-medium text-zinc-200 mb-2">{t('howToJoin.step2Title')}</h3>
           <p className="text-sm text-zinc-500 mb-4">
-            Launch Project Zomboid, select 'Join', and add a new server with the credentials below.
+            {t('howToJoin.step2Description')}
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3">
             <div className="flex-1 bg-zinc-900/50 border border-zinc-800 rounded-lg p-1.5 pl-3 flex items-center justify-between">
               <div className="flex flex-col">
                 <span className="text-[10px] uppercase text-zinc-500 font-medium tracking-wider">
-                  IP Address
+                  {t('howToJoin.ipAddress')}
                 </span>
                 <span className="text-sm font-mono text-zinc-300">123.45.67.89</span>
               </div>
@@ -60,7 +62,7 @@ const HowToJoin = () => {
             </div>
             <div className="w-full sm:w-32 bg-zinc-900/50 border border-zinc-800 rounded-lg p-1.5 pl-3 flex items-center justify-between">
               <div className="flex flex-col">
-                <span className="text-[10px] uppercase text-zinc-500 font-medium tracking-wider">Port</span>
+                <span className="text-[10px] uppercase text-zinc-500 font-medium tracking-wider">{t('howToJoin.port')}</span>
                 <span className="text-sm font-mono text-zinc-300">16261</span>
               </div>
               <button
@@ -79,9 +81,9 @@ const HowToJoin = () => {
 
         <div className="relative">
           <div className="absolute -left-[30px] top-1 w-3 h-3 bg-zinc-950 border-2 border-zinc-700 rounded-full"></div>
-          <h3 className="text-sm font-medium text-zinc-200 mb-2">3. Survive</h3>
+          <h3 className="text-sm font-medium text-zinc-200 mb-2">{t('howToJoin.step3Title')}</h3>
           <p className="text-sm text-zinc-500">
-            Create your character, pick your spawn point carefully, and try not to get bitten.
+            {t('howToJoin.step3Description')}
           </p>
         </div>
       </div>

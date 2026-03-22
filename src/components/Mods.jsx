@@ -1,4 +1,7 @@
+import { useLanguage } from '../contexts/LanguageContext';
+
 const Mods = () => {
+  const { t } = useLanguage();
   const mods = [
     {
       name: "Brita's Weapons",
@@ -37,12 +40,12 @@ const Mods = () => {
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center gap-3">
           <iconify-icon icon="solar:box-linear" className="text-zinc-500 text-lg"></iconify-icon>
-          <h2 className="text-xl font-semibold tracking-tight text-zinc-100">Workshop Mods</h2>
+          <h2 className="text-xl font-semibold tracking-tight text-zinc-100">{t('mods.title')}</h2>
         </div>
       </div>
 
       <p className="text-sm text-zinc-400 mb-6 border-l-2 border-lime-800 pl-4 py-1">
-        Important: Please subscribe to our collection before joining to avoid connection timeouts.
+        {t('mods.important')}
       </p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -79,7 +82,7 @@ const Mods = () => {
           href="#"
           className="inline-flex items-center gap-2 text-sm text-lime-600 hover:text-lime-500 font-medium transition-colors"
         >
-          Subscribe to full collection <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
+          {t('mods.subscribeCollection')} <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
         </a>
       </div>
     </section>

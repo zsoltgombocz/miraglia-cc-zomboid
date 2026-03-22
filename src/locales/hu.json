@@ -1,0 +1,76 @@
+{
+  "nav": {
+    "home": "Főoldal",
+    "info": "Infó",
+    "mods": "Modok",
+    "rules": "Szabályok",
+    "feedback": "Visszajelzés",
+    "join": "Csatlakozás"
+  },
+  "hero": {
+    "title": "NewDawn Zomboid",
+    "description": "Brutális, közösség által vezérelt túlélési élmény. Gyűjts, építs, és éld túl a hordát egy gondosan kidolgozott világban.",
+    "status": "Státusz",
+    "online": "Online",
+    "players": "Játékosok",
+    "ipAddress": "IP Cím",
+    "port": "Port",
+    "connectNow": "Csatlakozás most",
+    "viewMods": "Modok megtekintése"
+  },
+  "serverInfo": {
+    "title": "Szerver áttekintés",
+    "region": "Régió",
+    "regionValue": "Észak-Amerika (Kelet)",
+    "gameplayStyle": "Játékmód",
+    "gameplayStyleValue": "PvPvE / Könnyű Roleplay",
+    "wipePolicy": "Törlési szabályzat",
+    "wipePolicyValue": "Nincs tervezett törlés",
+    "lootRespawn": "Zsákmány újratöltés",
+    "lootRespawnValue": "2 játékbeli hónaponként",
+    "additionalNotes": "További megjegyzések",
+    "additionalNotesValue": "A játékon belüli hangchat erősen ajánlott. A frakciók 3 nap játékidő után igényelhetnek biztonságos házakat. Az olvasási sebesség 2x-re van növelve, hogy tiszteletben tartsuk az idődet."
+  },
+  "mods": {
+    "title": "Workshop Modok",
+    "important": "Fontos: Kérjük, iratkozz fel a gyűjteményünkre csatlakozás előtt, hogy elkerüld a kapcsolat időtúllépését.",
+    "subscribeCollection": "Feliratkozás a teljes gyűjteményre"
+  },
+  "howToJoin": {
+    "title": "Hogyan csatlakozz",
+    "step1Title": "1. Iratkozz fel a modokra",
+    "step1Description": "Győződj meg róla, hogy letöltötted az összes szükséges modot a Steam Workshopról a játék indítása előtt.",
+    "step2Title": "2. Add meg a szerver adatait",
+    "step2Description": "Indítsd el a Project Zomboidot, válaszd a 'Csatlakozás' opciót, és adj hozzá egy új szervert az alábbi hitelesítő adatokkal.",
+    "step3Title": "3. Túlélés",
+    "step3Description": "Hozd létre a karakteredet, válaszd ki gondosan a kezdőpontot, és próbálj meg nem megharapva lenni.",
+    "ipAddress": "IP Cím",
+    "port": "Port"
+  },
+  "rules": {
+    "title": "Szerver szabályok",
+    "rule1Title": "1. Tiszteld a többi játékost a játékon kívül",
+    "rule1Content": "A karakterben való beszólások rendben vannak, de a gyűlöletbeszéd, valós életi zaklatás vagy szélsőséges toxicitás a globális chatben vagy Discordon azonnali kitiltást eredményez.",
+    "rule2Title": "2. Nincs csalás vagy kihasználás",
+    "rule2Content": "Harmadik féltől származó szoftverek használata, tárgyak duplikálása vagy térképhibák kihasználása szigorúan tilos. Jelentsd a hibákat, ha találsz ilyeneket.",
+    "rule3Title": "3. Biztonságos ház mechanikák",
+    "rule3Content": "3 nap túlélési idő után igényelhetsz biztonságos házat. A biztonságos házakba való glitchelés vagy a biztonságos ház falainak kihasználáson keresztüli elpusztítása tilos. A normál raid mechanikák érvényesek.",
+    "rule4Title": "4. A harci kilépés gyávaság",
+    "rule4Content": "Nem megengedett a szerver elhagyása aktív PvP harc közben vagy zombik általi aktív üldözés során a halál elkerülése érdekében. A karaktered rövid ideig a világban marad a kilépés után.",
+    "rule5Title": "5. Az admin döntések véglegesek",
+    "rule5Content": "Ha egy admin döntést hoz egy vitában, tartsd tiszteletben. Ha úgy gondolod, hogy egy admin igazságtalanul jár el, adj be egy jegyet csendben, ahelyett, hogy drámát okoznál a globális chatben."
+  },
+  "feedback": {
+    "title": "Túlélői naplók",
+    "formTitle": "Üzenet küldése",
+    "messageType": "Üzenet típusa",
+    "typeFeedback": "Visszajelzés",
+    "typeModSuggestion": "Mod javaslat",
+    "typeReport": "Jelentés",
+    "steamName": "Steam név",
+    "steamNamePlaceholder": "Túlélő123",
+    "message": "Üzenet",
+    "messagePlaceholder": "Mondd el, mi jár a fejedben...",
+    "submit": "Küldés"
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "nav": {
+    "home": "Home",
+    "info": "Info",
+    "mods": "Mods",
+    "rules": "Rules",
+    "feedback": "Feedback",
+    "join": "Join"
+  },
+  "hero": {
+    "title": "NewDawn Zomboid",
+    "description": "A brutal, community-driven survival experience. Scavenge, build, and outlive the horde in a meticulously crafted world.",
+    "status": "Status",
+    "online": "Online",
+    "players": "Players",
+    "ipAddress": "IP Address",
+    "port": "Port",
+    "connectNow": "Connect Now",
+    "viewMods": "View Mods"
+  },
+  "serverInfo": {
+    "title": "Server Overview",
+    "region": "Region",
+    "regionValue": "North America (East)",
+    "gameplayStyle": "Gameplay Style",
+    "gameplayStyleValue": "PvPvE / Light Roleplay",
+    "wipePolicy": "Wipe Policy",
+    "wipePolicyValue": "No scheduled wipes",
+    "lootRespawn": "Loot Respawn",
+    "lootRespawnValue": "Every 2 in-game months",
+    "additionalNotes": "Additional Notes",
+    "additionalNotesValue": "In-game voice chat is highly encouraged. Factions can claim safehouses after 3 days of playtime. Reading speeds are increased by 2x to respect your time."
+  },
+  "mods": {
+    "title": "Workshop Mods",
+    "important": "Important: Please subscribe to our collection before joining to avoid connection timeouts.",
+    "subscribeCollection": "Subscribe to full collection"
+  },
+  "howToJoin": {
+    "title": "How to Join",
+    "step1Title": "1. Subscribe to Mods",
+    "step1Description": "Ensure you have downloaded all required mods from the Steam Workshop before launching the game.",
+    "step2Title": "2. Enter Server Details",
+    "step2Description": "Launch Project Zomboid, select 'Join', and add a new server with the credentials below.",
+    "step3Title": "3. Survive",
+    "step3Description": "Create your character, pick your spawn point carefully, and try not to get bitten.",
+    "ipAddress": "IP Address",
+    "port": "Port"
+  },
+  "rules": {
+    "title": "Server Rules",
+    "rule1Title": "1. Respect other players outside of gameplay",
+    "rule1Content": "Trash talk in character is fine, but hate speech, real-life harassment, or extreme toxicity in global chat or Discord will result in an immediate ban.",
+    "rule2Title": "2. No cheating or exploiting",
+    "rule2Content": "The use of third-party software, duping items, or exploiting map glitches is strictly prohibited. Report exploits if you find them.",
+    "rule3Title": "3. Safehouse mechanics",
+    "rule3Content": "You may claim a safehouse after 3 days of survival time. Glitching into safehouses or destroying safehouse walls through exploits is forbidden. Normal raiding mechanics apply.",
+    "rule4Title": "4. Combat logging is cowardly",
+    "rule4Content": "Disconnecting while in active PvP combat or while being actively pursued by zombies to avoid death is not allowed. Your character remains in the world briefly after disconnect.",
+    "rule5Title": "5. Admin decisions are final",
+    "rule5Content": "If an admin makes a ruling on a dispute, respect it. If you believe an admin is acting unfairly, submit a ticket quietly rather than causing drama in global chat."
+  },
+  "feedback": {
+    "title": "Survivor Logs",
+    "formTitle": "Drop a Message",
+    "messageType": "Message Type",
+    "typeFeedback": "Feedback",
+    "typeModSuggestion": "Mod Suggestion",
+    "typeReport": "Report",
+    "steamName": "Steam Name",
+    "steamNamePlaceholder": "Survivor123",
+    "message": "Message",
+    "messagePlaceholder": "Let us know what's on your mind...",
+    "submit": "Submit"
+  }
+}
