@@ -40,3 +40,5 @@ server/data/*.json
 server/data/*.db
 server/data/*.db-*
 !server/data/.gitkeep
+
+package-lock.json
