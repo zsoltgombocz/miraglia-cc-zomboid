@@ -77,6 +77,13 @@
     "steamNamePlaceholder": "Survivor123",
     "message": "Message",
     "messagePlaceholder": "Let us know what's on your mind...",
-    "submit": "Submit"
-  }
+    "submit": "Submit",
+    "messages": {
+      "serverError": "Server error!",
+      "rateLimit": "Hold on, not too fast!",
+      "configError": "Server configuration error!",
+      "submitted": "Thank you for your feedback!",
+      "captchaRequired": "Please complete the CAPTCHA verification."
+    }
+ }
 }

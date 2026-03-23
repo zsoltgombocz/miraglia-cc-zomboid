@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import modsRoutes from './routes/mods.js';
 import serverStatusRoutes from './routes/server-status.js';
+import formSubmissionRoutes from './routes/form-submission.js';
 
 const app = express();
 
@@ -10,6 +11,7 @@ app.use(express.json());
 
 app.use('/api/mods', modsRoutes);
 app.use('/api/server-status', serverStatusRoutes);
+app.use('/api/form', formSubmissionRoutes);
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok' });

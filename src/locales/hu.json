@@ -77,6 +77,13 @@
     "steamNamePlaceholder": "Túlélő123",
     "message": "Üzenet",
     "messagePlaceholder": "Mondd el, mi jár a fejedben...",
-    "submit": "Küldés"
+    "submit": "Küldés",
+    "messages": {
+      "serverError": "Szerver hiba!",
+      "rateLimit": "Ne olyan gyorsan, várj egy picit!",
+      "configError": "Szerver konfigurációs hiba!",
+      "submitted": "Köszönjük a visszajelzést!",
+      "captchaRequired": "Kérlek, oldd meg a CAPTCHA-t a folytatáshoz."
+    }
   }
 }

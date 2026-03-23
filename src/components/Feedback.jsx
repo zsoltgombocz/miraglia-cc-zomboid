@@ -15,6 +15,32 @@ const Feedback = () => {
   const [selectedType, setSelectedType] = useState('feedback');
   const [steamName, setSteamName] = useState('');
   const [message, setMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState('');
+  const [turnstileLoaded, setTurnstileLoaded] = useState(false);
+
+  // Load Cloudflare Turnstile script dynamically
+  useEffect(() => {
+    if (window.turnstile) {
+      setTurnstileLoaded(true);
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback';
+    script.async = true;
+    script.defer = true;
+    
+    window.onloadTurnstileCallback = () => {
+      setTurnstileLoaded(true);
+    };
+    
+    document.head.appendChild(script);
+
+    return () => {
+      delete window.onloadTurnstileCallback;
+    };
+  }, []);
 
   const scrollSlider = (direction) => {
     if (sliderRef.current) {
@@ -25,28 +51,46 @@ const Feedback = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitMessage('');
+
+    const token = window.turnstile?.getResponse();
+    
+    if (!token) {
+      setSubmitMessage(t('feedback.messages.captchaRequired'));
+      setIsSubmitting(false);
+      return;
+    }
 
     try {
-      const response = await fetch('http://localhost:3001/api/forms/submit', {
+      const response = await fetch('https://api.zomboid.miraglia.cc/api/form/submit', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({
           type: selectedType,
           steamName,
           message,
-        }),
+          'cf-turnstile-response': token
+        })
       });
 
-      if (response.ok) {
-        alert('Thank you for your feedback!');
+      const result = await response.json();
+
+      if (result.success) {
+        setSubmitMessage(t(`feedback.messages.${result.message}`));
         setSteamName('');
         setMessage('');
         setSelectedType('feedback');
+        window.turnstile?.reset();
       } else {
-        alert('Failed to submit feedback');
+        setSubmitMessage(t(`feedback.messages.${result.message}`));
       }
     } catch (error) {
-      alert('Failed to submit feedback');
+      setSubmitMessage(t('feedback.messages.serverError'));
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -110,6 +154,12 @@ const Feedback = () => {
           <div className="p-6 md:p-8 border border-zinc-800/80 bg-zinc-900/30 rounded-2xl">
             <h3 className="text-base font-semibold text-zinc-100 mb-6 tracking-tight">{t('feedback.formTitle')}</h3>
 
+            {submitMessage && (
+              <div className={`p-3 rounded mb-4 ${submitMessage.includes('Thank') || submitMessage.includes('Köszönjük') ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                {submitMessage}
+              </div>
+            )}
+
             <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
               {/* Message Type */}
               <div className="flex flex-col gap-2">
@@ -161,11 +211,25 @@ const Feedback = () => {
                 ></textarea>
               </div>
 
+              <div className="flex flex-col gap-2">
+                <div 
+                  className="cf-turnstile" 
+                  data-sitekey={"0x4AAAAAACvCiaOh7Uhs1cJI"}
+                  data-callback="onSubmit"
+                  data-size="normal"
+                ></div>
+              </div>
+
               <button
                 type="submit"
-                className="mt-2 w-full md:w-auto md:px-8 py-2.5 bg-zinc-200 hover:bg-white text-zinc-950 text-sm font-medium rounded-lg transition-colors ml-auto"
+                disabled={isSubmitting || !turnstileLoaded}
+                className={`mt-2 w-full md:w-auto md:px-8 py-2.5 text-sm font-medium rounded-lg transition-colors ml-auto ${
+                  isSubmitting || !turnstileLoaded
+                    ? 'bg-gray-400 cursor-not-allowed'
+                    : 'bg-zinc-200 hover:bg-white text-zinc-950'
+                }`}
               >
-                {t('feedback.submit')}
+                {isSubmitting ? 'Submitting...' : t('feedback.submit')}
               </button>
             </form>
           </div>
