@@ -1,19 +1,13 @@
-version: '3.8'
-
 services:
   app:
-    image: ghcr.io/zsoltgombocz/zomboid-landing.cc:latest
+    image: ghcr.io/zsoltgombocz/zomboid-landing-cc:latest
     container_name: zomboid-landing
     restart: unless-stopped
 
-    env_file:
-      - .env
-
-    ports:
-      - "3001:3001"
-
     volumes:
-      - ./dist:/app/dist:ro
+      # Expose built frontend files for Caddy to serve
+      - zomboid-landing-dist:/app/dist:ro
+      - ./.env:/app/.env:ro
 
     healthcheck:
       test: ["CMD", "bun", "-e", "fetch('http://localhost:3000/api/health').then(r => r.ok ? process.exit(0) : process.exit(1))"]
@@ -23,8 +17,14 @@ services:
       start_period: 10s
 
     networks:
-      - zomboid-network
+      caddy:
+        aliases:
+          - zomboid-landing
 
 networks:
-  zomboid-network:
-    driver: bridge
+  caddy:
+    external: true
+
+volumes:
+  zomboid-landing-dist:
+    external: true

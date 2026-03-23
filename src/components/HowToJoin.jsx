@@ -8,7 +8,7 @@ const HowToJoin = () => {
   const [serverStatus, setServerStatus] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/server-status')
+    fetch('https://api.zomboid.miraglia.cc/api/server-status')
       .then((res) => res.json())
       .then((data) => setServerStatus(data))
       .catch((err) => console.error('Failed to fetch server status:', err));

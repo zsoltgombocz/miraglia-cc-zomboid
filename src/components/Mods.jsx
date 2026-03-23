@@ -7,7 +7,7 @@ const Mods = () => {
   const [showAll, setShowAll] = useState(false);
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/mods')
+    fetch('https://api.zomboid.miraglia.cc/api/mods')
       .then((res) => res.json())
       .then((data) => setMods(data))
       .catch((err) => console.error('Failed to fetch mods:', err));
