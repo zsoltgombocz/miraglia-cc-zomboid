@@ -6,7 +6,17 @@ const TESTIMONIALS = [
     author: "Miraglia",
     quote: "Best server ever!!!",
     initial: "M"
-  }
+  },
+  {
+    author: "Cryter",
+    quote: "In a world where every door could mean death and every sound makes your heart race, this server somehow stays rock solid. No lag, no nonsense, just pure survival chaos.",
+    initial: "C"
+  },
+  {
+    author: "hujeno",
+    quote: "Number 1 szero -",
+    initial: "H"
+  },
 ];
 
 const Feedback = () => {
