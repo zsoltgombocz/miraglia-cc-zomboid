@@ -49,7 +49,7 @@ async function fetchServerStatus() {
 
     const response = await rconClient.send('players');
 
-    const playerCount = response.match(/Players: (\d+)/i);
+    const playerCount = response.match(/Players connected \((\d+)\):/i);
     const players = playerCount ? parseInt(playerCount[1]) : 0;
 
     return {
