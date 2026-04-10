@@ -1,17 +1,34 @@
 import { useLanguage } from '../contexts/LanguageContext';
 import { useState, useEffect } from 'react';
+import { API_URL } from '../config';
 
 const Mods = () => {
   const { t } = useLanguage();
   const [mods, setMods] = useState([]);
+  const [newMods, setNewMods] = useState([]);
+  const [collectionUrl, setCollectionUrl] = useState('');
   const [showAll, setShowAll] = useState(false);
 
   useEffect(() => {
-    fetch('https://api.zomboid.miraglia.cc/api/mods')
+    // Fetch mods
+    fetch(`${API_URL}/api/mods`)
       .then((res) => res.json())
-      .then((data) => setMods(data))
+      .then((data) => {
+        setMods(data.mods || []);
+        setCollectionUrl(data.collectionUrl || '');
+      })
       .catch((err) => console.error('Failed to fetch mods:', err));
+
+    // Fetch new mods list
+    fetch(`${API_URL}/api/changelog/new-mods`)
+      .then((res) => res.json())
+      .then((data) => setNewMods(data.newMods || []))
+      .catch((err) => console.error('Failed to fetch new mods:', err));
   }, []);
+
+  const isNewMod = (workshopId) => {
+    return newMods.includes(parseInt(workshopId)) || newMods.includes(String(workshopId));
+  };
 
   const displayedMods = showAll ? mods : mods.slice(0, 6);
 
@@ -48,12 +65,19 @@ const Mods = () => {
               alt={mod.name}
               className="w-12 h-12 rounded-lg object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all border border-zinc-800 shrink-0"
             />
-            <div className="flex-1 flex flex-col">
-              <div className="flex items-start justify-between">
-                <span className="text-sm font-medium text-zinc-200 group-hover:text-white transition-colors">
-                  {mod.name}
-                </span>
-                <span className="text-zinc-500 group-hover:text-zinc-200 transition-colors">
+            <div className="flex-1 flex flex-col gap-1">
+              <div className="flex items-start justify-between gap-2">
+                <div className="flex items-center gap-2 flex-1">
+                  <span className="text-sm font-medium text-zinc-200 group-hover:text-white transition-colors">
+                    {mod.name}
+                  </span>
+                  {isNewMod(mod.workshopId || mod.id) && (
+                    <span className="inline-flex items-center px-1.5 py-0.5 text-[9px] font-bold text-zinc-950 bg-lime-500 rounded uppercase shrink-0">
+                      {t('mods.new')}
+                    </span>
+                  )}
+                </div>
+                <span className="text-zinc-500 group-hover:text-zinc-200 transition-colors shrink-0">
                   <iconify-icon icon="solar:arrow-right-up-linear" className="text-lg"></iconify-icon>
                 </span>
               </div>
@@ -70,16 +94,18 @@ const Mods = () => {
             </button>
         }
 
-      <div className="mt-6 flex items-center gap-4">
-        <a
-          href={"#"}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 text-sm text-lime-600 hover:text-lime-500 font-medium transition-colors"
-        >
-          {t('mods.subscribeCollection')} <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
-        </a>
-      </div>
+      {collectionUrl && (
+        <div className="mt-6 flex items-center gap-4">
+          <a
+            href={collectionUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm text-lime-600 hover:text-lime-500 font-medium transition-colors"
+          >
+            {t('mods.subscribeCollection')} <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
+          </a>
+        </div>
+      )}
     </section>
   );
 };

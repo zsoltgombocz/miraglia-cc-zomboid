@@ -1,5 +1,6 @@
 import { useLanguage } from '../contexts/LanguageContext';
 import { useState, useEffect } from 'react';
+import { API_URL } from '../config';
 
 const Hero = () => {
   const { t } = useLanguage();
@@ -7,7 +8,7 @@ const Hero = () => {
 
   useEffect(() => {
     const fetchServerStatus = () => {
-      fetch('https://api.zomboid.miraglia.cc/api/server-status')
+      fetch(`${API_URL}/api/server-status`)
         .then((res) => res.json())
         .then((data) => setServerStatus(data))
         .catch((err) => console.error('Failed to fetch server status:', err));

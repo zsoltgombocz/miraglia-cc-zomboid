@@ -10,6 +10,8 @@ const router = express.Router();
 const modCache = new Map();
 
 async function fetchWorkshopItems(workshopIds) {
+  if (!workshopIds || workshopIds.length === 0) return [];
+
   try {
     let requestBody = `itemcount=${workshopIds.length}`;
 
@@ -56,24 +58,44 @@ router.get('/', async (req, res) => {
     const changelogData = await fs.readFile(changelogPath, 'utf-8');
     const changelog = JSON.parse(changelogData);
 
-    const currentModsSet = new Set();
-    const changelogs = changelog.changelogs;
+    // Enrich changelog entries with mod details
+    const enrichedChangelogs = await Promise.all(
+      changelog.changelogs.map(async (entry) => {
+        const [addedModsDetails, removedModsDetails] = await Promise.all([
+          fetchWorkshopItems(entry.addedMods),
+          fetchWorkshopItems(entry.removedMods),
+        ]);
 
-    for (const entry of changelogs) {
-      entry.addedMods?.forEach(modId => currentModsSet.add(modId));
-      entry.removedMods?.forEach(modId => currentModsSet.delete(modId));
-    }
+        return {
+          ...entry,
+          addedModsDetails,
+          removedModsDetails,
+        };
+      })
+    );
 
-    const currentMods = Array.from(currentModsSet);
-    const workshopMods = await fetchWorkshopItems(currentMods);
-
-    res.json({
-      mods: workshopMods,
-      collectionUrl: changelog.collectionUrl || ''
-    });
+    res.json({ changelogs: enrichedChangelogs });
   } catch (error) {
-    console.error('Failed to fetch mods:', error);
-    res.status(500).json({ error: 'Failed to fetch mods' });
+    console.error('Failed to fetch changelog:', error);
+    res.status(500).json({ error: 'Failed to fetch changelog' });
+  }
+});
+
+router.get('/new-mods', async (req, res) => {
+  try {
+    const changelogPath = path.join(__dirname, '../data/changelog.json');
+    const changelogData = await fs.readFile(changelogPath, 'utf-8');
+    const changelog = JSON.parse(changelogData);
+
+    const latestChangelogWithMods = changelog.changelogs.find(entry =>
+      entry.addedMods && entry.addedMods.length > 0
+    );
+    const newMods = latestChangelogWithMods?.addedMods || [];
+
+    res.json({ newMods });
+  } catch (error) {
+    console.error('Failed to fetch new mods:', error);
+    res.status(500).json({ error: 'Failed to fetch new mods' });
   }
 });
 

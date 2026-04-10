@@ -5,6 +5,7 @@
     "mods": "Mods",
     "rules": "Rules",
     "feedback": "Feedback",
+    "changelog": "Changelog",
     "join": "Join"
   },
   "hero": {
@@ -36,7 +37,8 @@
     "title": "Workshop Mods",
     "subscribeCollection": "Subscribe to full collection",
     "showMore": "Show More",
-    "showLess": "Show Less"
+    "showLess": "Show Less",
+    "new": "New"
   },
   "howToJoin": {
     "title": "How to Join",
@@ -85,5 +87,15 @@
       "submitted": "Thank you for your feedback!",
       "captchaRequired": "Please complete the CAPTCHA verification."
     }
- }
+  },
+  "changelog": {
+    "title": "Server Changelog",
+    "description": "Track all mod additions and removals to the server over time.",
+    "backToHome": "Back to Home",
+    "addedMods": "Added Mods",
+    "removedMods": "Removed Mods",
+    "loading": "Loading changelog...",
+    "noChangelogs": "No changelog entries yet.",
+    "noModChanges": "No mod changes in this update."
+  }
 }

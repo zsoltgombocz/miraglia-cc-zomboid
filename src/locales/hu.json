@@ -5,6 +5,7 @@
     "mods": "Modok",
     "rules": "Szabályok",
     "feedback": "Visszajelzés",
+    "changelog": "Változások",
     "join": "Csatlakozás"
   },
   "hero": {
@@ -36,7 +37,8 @@
     "title": "Workshop Modok",
     "subscribeCollection": "Feliratkozás a teljes gyűjteményre",
     "showMore": "Több mutatása",
-    "showLess": "Kevesebb mutatása"
+    "showLess": "Kevesebb mutatása",
+    "new": "Új"
   },
   "howToJoin": {
     "title": "Hogyan csatlakozz",
@@ -85,5 +87,15 @@
       "submitted": "Köszönjük a visszajelzést!",
       "captchaRequired": "Kérlek, oldd meg a CAPTCHA-t a folytatáshoz."
     }
+  },
+  "changelog": {
+    "title": "Szerver Változások",
+    "description": "Kövesd nyomon a szerveren bekövetkezett mod hozzáadásokat és eltávolításokat.",
+    "backToHome": "Vissza a főoldalra",
+    "addedMods": "Hozzáadott Modok",
+    "removedMods": "Eltávolított Modok",
+    "loading": "Változások betöltése...",
+    "noChangelogs": "Még nincsenek változási bejegyzések.",
+    "noModChanges": "Ebben a frissítésben nem történt mod változás."
   }
 }
