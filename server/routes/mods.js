@@ -69,7 +69,7 @@ router.get('/', async (req, res) => {
 
     res.json({
       mods: workshopMods,
-      collectionUrl: changelog.collectionUrl || ''
+      collectionUrl: changelogs[0].collectionUrl || ''
     });
   } catch (error) {
     console.error('Failed to fetch mods:', error);
