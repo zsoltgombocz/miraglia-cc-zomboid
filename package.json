@@ -1,134 +1,37 @@
 {
-  "changelogs": [
-    {
-      "id": "2026-04-01",
-      "datetime": "2026-04-01T18:00:00Z",
-      "title": {
-        "en": "Support for 42.16.0 patch!",
-        "hu": "Elérhető a szerver 42.16.0 verzión!"
-      },
-      "description": {
-        "en": "Updated the server to use the latest version of the game. Mods may cause warnings; if you experience any crashes, please contact us!",
-        "hu": "A szervert frissítettük, így most már a játék legújabb verzióját futtatja. A modok figyelmeztető üzenetet dobhatnak; amennyiben a játék összeomlik, kérjük, lépj kapcsolatba velünk!"
-      },
-      "addedMods": [],
-      "removedMods": []
-    },
-    {
-      "id": "2026-03-27",
-      "datetime": "2026-03-27T00:00:00Z",
-      "title": {
-        "en": "Zombies and Their Souls...",
-        "hu": "Zombik és a lelkük..."
-      },
-      "description": {
-        "en": "The server introduces another set of mods that shakes up survival a bit and adds a creepy new element.",
-        "hu": "A szerver egy újabb modcsomaggal bővült, amely kissé felrázza a túlélést, és egy hátborzongató új elemet is hoz magával."
-      },
-      "addedMods": [
-        2749928925,
-        2874678809,
-        3396867685
-      ],
-      "removedMods": []
-    },
-    {
-      "id": "2026-03-25",
-      "datetime": "2026-03-22T00:00:00Z",
-      "title": {
-        "en": "Bandits!",
-        "hu": "Banditák!"
-      },
-      "description": {
-        "en": "As an experiment, we added bandit NPCs to the server to spice up the gameplay a bit. If you encounter any issues, feel free to contact us!",
-        "hu": "Kísérleti jelleggel bandita NPC-ket adtunk hozzá a szerverhez, hogy egy kicsit feldobjuk a játékmenetet. Ha bármilyen problémát tapasztalsz, nyugodtan lépj kapcsolatba velünk!"
-      },
-      "addedMods": [
-        3268487204,
-        3469292499
-      ],
-      "removedMods": []
-    },
-    {
-      "id": "2026-03-15",
-      "datetime": "2026-03-15T00:00:00Z",
-      "title": {
-        "en": "QoL - New Mod Pack",
-        "hu": "QoL - Új modok"
-      },
-      "description": {
-        "en": "Added several quality-of-life mods.",
-        "hu": "A játékélmény javítása érdekében néhány új modot adtunk hozzá."
-      },
-      "addedMods": [
-        3685155134,
-        3386906181,
-        3676456221,
-        3600401184,
-        3577100076
-      ],
-      "removedMods": []
-    },
-    {
-      "id": "2026-02-16",
-      "datetime": "2026-02-16T00:00:00Z",
-      "title": {
-        "en": "Server Launch - Initial Mod Pack",
-        "hu": "Szerver Indítás - Kezdeti Mod Csomag"
-      },
-      "description": {
-        "en": "Initial server launch with the base mod collection.",
-        "hu": "A szerver elindult az alap modgyűjteménnyel."
-      },
-      "addedMods": [
-        3580276809,
-        3461263912,
-        3401134276,
-        2463184726,
-        2447729538,
-        3429790870,
-        3436537035,
-        3437629766,
-        3508537032,
-        2684285534,
-        3414634809,
-        3616536783,
-        2956146279,
-        2950902979,
-        2866258937,
-        3431734923,
-        3451167732,
-        3171167894,
-        3161951724,
-        3570973322,
-        3110913021,
-        2952802178,
-        3152529790,
-        2962175696,
-        3073430075,
-        3330403100,
-        3026723485,
-        3052360250,
-        3088951320,
-        2625625421,
-        3226885926,
-        3287727378,
-        3539691958,
-        3435796523,
-        3388107363,
-        3625510824,
-        3677017550,
-        3680633169,
-        3470422050,
-        3470426196,
-        3611718925,
-        3682045254,
-        3058134369,
-        2896041179,
-        3077900375,
-        3632444452
-      ],
-      "removedMods": []
-    }
-  ]
+  "name": "miraglia-cc-zomboid",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "server": "node server/index.js",
+    "dev:all": "concurrently \"bun run dev\" \"bun run server\""
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@vitejs/plugin-react": "^6.0.1",
+    "autoprefixer": "^10.4.27",
+    "concurrently": "^9.2.1",
+    "postcss": "^8.5.8",
+    "tailwindcss": "^4.2.2",
+    "vite": "^8.0.1"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.2.2",
+    "axios": "^1.6.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "rcon-client": "^4.2.5",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "react-router-dom": "^7.14.0",
+    "steam-api": "^1.1.3"
+  }
 }

@@ -1,5 +1,4 @@
 {
-  "collectionUrl": "https://steamcommunity.com/sharedfiles/filedetails/?id=YOUR_COLLECTION_ID",
   "changelogs": [
     {
       "id": "2026-04-01",
@@ -9,8 +8,8 @@
         "hu": "Elérhető a szerver 42.16.0 verzión!"
       },
       "description": {
-        "en": "Updated the server to use the latest version of the game. Mods may cause warning, if crashes occur please get in contact with us!",
-        "hu": "A szervert frissítettük, így most már a játék legújabb verzióját futtatja. A modok figyelmeztető hiba üzenetet dobhatnak; amennyiben a játék összeomlik, kérjük, lépjen kapcsolatba velünk!"
+        "en": "Updated the server to use the latest version of the game. Mods may cause warnings; if you experience any crashes, please contact us!",
+        "hu": "A szervert frissítettük, így most már a játék legújabb verzióját futtatja. A modok figyelmeztető üzenetet dobhatnak; amennyiben a játék összeomlik, kérjük, lépj kapcsolatba velünk!"
       },
       "addedMods": [],
       "removedMods": []
@@ -19,14 +18,18 @@
       "id": "2026-03-27",
       "datetime": "2026-03-27T00:00:00Z",
       "title": {
-        "en": "Zombies and its souls...",
+        "en": "Zombies and Their Souls...",
         "hu": "Zombik és a lelkük..."
       },
       "description": {
-        "en": "The server introduces another set of mods that shakes up the survival a bit and brings a creepy addition too.",
-        "hu": "A szerver egy újabb modcsomaggal rukkol elő, amely kissé felrázza a túlélési módot, és egy hátborzongató új elemet is hoz magával."
+        "en": "The server introduces another set of mods that shakes up survival a bit and adds a creepy new element.",
+        "hu": "A szerver egy újabb modcsomaggal bővült, amely kissé felrázza a túlélést, és egy hátborzongató új elemet is hoz magával."
       },
-      "addedMods": [2749928925, 2874678809, 3396867685],
+      "addedMods": [
+        2749928925,
+        2874678809,
+        3396867685
+      ],
       "removedMods": []
     },
     {
@@ -37,24 +40,33 @@
         "hu": "Banditák!"
       },
       "description": {
-        "en": "For experimental we added bandit NPCs to the server in order to spice up the gameplay a bit. If you have issues feel free to contact us!",
-        "hu": "Kísérleti jelleggel bandita NPC-ket adtunk hozzá a szerverhez, hogy egy kicsit feldobjuk a játékmenetet. Ha bármilyen problémád van, nyugodtan lépj kapcsolatba velünk!"
+        "en": "As an experiment, we added bandit NPCs to the server to spice up the gameplay a bit. If you encounter any issues, feel free to contact us!",
+        "hu": "Kísérleti jelleggel bandita NPC-ket adtunk hozzá a szerverhez, hogy egy kicsit feldobjuk a játékmenetet. Ha bármilyen problémát tapasztalsz, nyugodtan lépj kapcsolatba velünk!"
       },
-      "addedMods": [3268487204, 3469292499],
+      "addedMods": [
+        3268487204,
+        3469292499
+      ],
       "removedMods": []
     },
     {
       "id": "2026-03-15",
       "datetime": "2026-03-15T00:00:00Z",
       "title": {
-        "en": "QoL - New set of mods",
+        "en": "QoL - New Mod Pack",
         "hu": "QoL - Új modok"
       },
       "description": {
-        "en": "Added some quality of life mods",
-        "hu": "Játék élmény javítása érdekében pár mod hozzáadásra került."
+        "en": "Added several quality-of-life mods.",
+        "hu": "A játékélmény javítása érdekében néhány új modot adtunk hozzá."
       },
-      "addedMods": [3685155134, 3386906181, 3676456221, 3600401184, 3577100076],
+      "addedMods": [
+        3685155134,
+        3386906181,
+        3676456221,
+        3600401184,
+        3577100076
+      ],
       "removedMods": []
     },
     {
@@ -65,8 +77,8 @@
         "hu": "Szerver Indítás - Kezdeti Mod Csomag"
       },
       "description": {
-        "en": "Initial server launch with base mod collection.",
-        "hu": "Szerver indítása az alap mod gyűjteménnyel."
+        "en": "Initial server launch with the base mod collection.",
+        "hu": "A szerver elindult az alap modgyűjteménnyel."
       },
       "addedMods": [
         3580276809,
