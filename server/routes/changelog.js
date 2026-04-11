@@ -60,7 +60,7 @@ router.get('/', async (req, res) => {
 
     // Enrich changelog entries with mod details
     const enrichedChangelogs = await Promise.all(
-      changelog.changelogs.map(async (entry) => {
+      changelog.map(async (entry) => {
         const [addedModsDetails, removedModsDetails] = await Promise.all([
           fetchWorkshopItems(entry.addedMods),
           fetchWorkshopItems(entry.removedMods),
@@ -87,7 +87,7 @@ router.get('/new-mods', async (req, res) => {
     const changelogData = await fs.readFile(changelogPath, 'utf-8');
     const changelog = JSON.parse(changelogData);
 
-    const latestChangelogWithMods = changelog.changelogs.find(entry =>
+    const latestChangelogWithMods = changelog.find(entry =>
       entry.addedMods && entry.addedMods.length > 0
     );
     const newMods = latestChangelogWithMods?.addedMods || [];

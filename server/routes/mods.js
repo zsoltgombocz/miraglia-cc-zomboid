@@ -57,9 +57,8 @@ router.get('/', async (req, res) => {
     const changelog = JSON.parse(changelogData);
 
     const currentModsSet = new Set();
-    const changelogs = changelog.changelogs;
 
-    for (const entry of changelogs) {
+    for (const entry of changelog) {
       entry.addedMods?.forEach(modId => currentModsSet.add(modId));
       entry.removedMods?.forEach(modId => currentModsSet.delete(modId));
     }
@@ -69,7 +68,7 @@ router.get('/', async (req, res) => {
 
     res.json({
       mods: workshopMods,
-      collectionUrl: changelogs[0].collectionUrl || ''
+      collectionUrl: changelog[0].collectionUrl || ''
     });
   } catch (error) {
     console.error('Failed to fetch mods:', error);
