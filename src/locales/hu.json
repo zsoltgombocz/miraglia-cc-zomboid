@@ -40,6 +40,10 @@
     "showLess": "Kevesebb mutatása",
     "new": "Új"
   },
+  "latestChangelog": {
+    "badge": "Legújabb Frissítés",
+    "viewAll": "Összes Megtekintése"
+  },
   "howToJoin": {
     "title": "Hogyan csatlakozz",
     "step1Title": "1. Indítsd el a játékot",

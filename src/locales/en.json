@@ -40,6 +40,10 @@
     "showLess": "Show Less",
     "new": "New"
   },
+  "latestChangelog": {
+    "badge": "Latest Update",
+    "viewAll": "View All"
+  },
   "howToJoin": {
     "title": "How to Join",
     "step1Title": "1. Launch Project Zomboid",

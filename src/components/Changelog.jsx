@@ -131,7 +131,7 @@ const Changelog = () => {
               >
                 {/* Entry Header */}
                 <div className="mb-4">
-                  <div className="flex items-start justify-between gap-4 mb-2">
+                  <div className="flex items-start justify-between gap-4 mb-2 flex-col sm:flex-row">
                     <h2 className="text-xl font-semibold text-zinc-100">
                       {entry.title[language] || entry.title.en}
                     </h2>
